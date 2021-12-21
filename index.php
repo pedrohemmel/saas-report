@@ -7,27 +7,17 @@
     <title>Login</title>
 </head>
 <body>
-    <form>
-        <label>Usuário</label>
-        <input type="text" name="usuario" placeholder="Digite o usuário">
-        <?php
+    <form method="POST" action="login_action.php">
+        <label>E-mail</label>
+        <input type="text" name="email_cli" placeholder="Digite o email">
 
-        
-
-
-        date_default_timezone_set('America/Sao_Paulo');
-        $data = date('d/m/Y H:i', strtotime('+7 days'));;
-        
-        echo $data;
-        ?>
         <br><br>
 
         <label>Senha</label>
-        <input type="password" name="senha" placeholder="Digite sua senha">
-
-        <p>Não tem conta? Clique <a href="cadastrar.php">aqui</a> e se cadastre agora.</p>
+        <input type="password" name="senha_cli" placeholder="Digite sua senha">
 
         <input type="submit" value="Acessar">
     </form>
+    <p>Não tem conta? Clique <a href="cadastrar.php">aqui</a> e se cadastre agora.</p>
 </body>
 </html>

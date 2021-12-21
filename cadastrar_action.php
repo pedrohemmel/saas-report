@@ -17,6 +17,8 @@ $data_hora_cadastro = date('Y/m/d H:i:s');
 $situacao_cli = 'ativo';
 $data_limite_acesso = date('Y/m/d H:i:s', strtotime('+7 days'));
 
+
+
 if($email_cli == $confirm_email_cli && $senha_cli == $confirm_senha_cli) {
     $novoCliente = new UsuarioCliente;
     $novoCliente->setNomeCli($nome_cli);

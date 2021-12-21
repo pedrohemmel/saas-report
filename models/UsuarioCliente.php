@@ -96,6 +96,8 @@ interface UsuarioClienteDAO {
 
     public function findAll();
 
+    public function findByEmail($email_cli);
+
     public function findById($id_cli);
 
     public function update(UsuarioCliente $uc);

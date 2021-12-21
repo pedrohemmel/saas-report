@@ -60,6 +60,37 @@ class UsuarioClienteDaoMysql implements UsuarioClienteDAO {
         return $array;
     }
 
+    public function findByEmail($email_cli) {
+        $array = [];
+
+        $email = $email_cli;
+
+        $sql = $this->pdo->query("SELECT * FROM usuarios_cliente WHERE email_cli = '".$email."';");
+        
+      
+
+        if($sql->rowCount() > 0) {
+            $data = $sql->fetchAll();
+        }
+
+        foreach($data as $item) {
+            $uc = new UsuarioCliente;
+            $uc->setIdCli($item['id_cli']);
+            $uc->setNomeCli($item['nome_cli']);
+            $uc->setEmpresaCli($item['empresa_cli']);
+            $uc->setEmailCli($item['email_cli']);
+            $uc->setSenhaCli($item['senha_cli']);
+            $uc->setTelefoneCli($item['telefone_cli']);
+            $uc->setDataHoraCadastro($item['data_hora_cadastro']);
+            $uc->setSituacaoCli($item['situacao_cli']);
+            $uc->setDataLimiteAcesso($item['data_limite_acesso']);
+    
+            $array[] = $uc;
+        }
+
+        return $array;
+    }
+
     public function findById($id_cli) {
 
     }
