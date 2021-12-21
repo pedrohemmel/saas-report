@@ -15,10 +15,10 @@ $senha_cli = filter_input(INPUT_POST, 'senha_cli');
 $confirm_senha_cli = filter_input(INPUT_POST, 'confirm_senha_cli');
 $data_hora_cadastro = date('Y/m/d H:i:s');
 $situacao_cli = 'ativo';
-$data_limite_acesso = date('Y/m/d H:i:s', strtotime('+7 days'));
+$data_limite_acesso = date('Y/m/d H:i:s', strtotime('+7 days')); //ADICIONEI MAIS 7 DIAS QUE SERIA O TEMPO GRATUITO DO USUARIO
 
 
-
+/*SE A SENHA E O EMAIL FOR IGUAL A CONFIRMAÇÃO DOS MESMOS, É CRIADO A CONTA E REDIRECIONADO PARA TELA DE LOGIN*/
 if($email_cli == $confirm_email_cli && $senha_cli == $confirm_senha_cli) {
     $novoCliente = new UsuarioCliente;
     $novoCliente->setNomeCli($nome_cli);

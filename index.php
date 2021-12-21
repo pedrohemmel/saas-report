@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +8,7 @@
     <title>Login</title>
 </head>
 <body>
-    <form method="POST" action="login_action.php">
+    <form method="POST" action="verificaUsuario.php">
         <label>E-mail</label>
         <input type="text" name="email_cli" placeholder="Digite o email">
 

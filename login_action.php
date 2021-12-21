@@ -4,35 +4,31 @@ require 'dao/UsuarioClienteDaoMysql.php';
 
 $UsuarioClienteDao = new UsuarioClienteDaoMysql($pdo);
 
-$email_cli = filter_input(INPUT_POST, 'email_cli', FILTER_VALIDATE_EMAIL);
-$senha_cli = filter_input(INPUT_POST, 'senha_cli');
-
-
+$email_cli = filter_input(INPUT_GET, 'email');
 
 $usuario = $UsuarioClienteDao->findByEmail($email_cli);
 
 
-$email;
-$senha;
-
 foreach($usuario as $getUsuario) {
+    $id = $getUsuario->getIdCli();
+    $nome = $getUsuario->getNomeCli();
+    $empresa = $getUsuario->getEmpresaCli();
     $email = $getUsuario->getEmailCli();
+    $telefone = $getUsuario->getTelefoneCli();
     $senha = $getUsuario->getSenhaCli();
+    $situacao = $getUsuario->getSituacaoCli();
+    $dataHoraCadastro = $getUsuario->getDataHoraCadastro();
+    $dataLimite = $getUsuario->getDataLimiteAcesso();
 }
 
-echo $email_cli;
-echo $senha_cli; //FIZ ISSO PARA VER SE AS VARIAVEIS ESTAO COM VALOR
-echo $senha;
 
-if(password_verify($senha_cli, $senha)) {  /*#@#@$@#$#@$ AQUI NÃO ESTÁ FUNCTIONANDO, A SENHA NAO FICA IGUAL A SENHA QUE ESTA NO BANCO*/
-    header('Location:index.php');
+if($situacao == 'ativo') {
+    header('Location:relatorio.php?id='.$id); 
     exit;
-} else {
-  
+} else if($situacao == 'inativo') {
+    header('Location:acessoNegado.php');
     exit;
-    
 }
-
 
 
 
