@@ -38,7 +38,7 @@ class UsuarioClienteDaoMysql implements UsuarioClienteDAO {
 
         $sql = $this->pdo->query("select * from usuarios_cliente");
 
-        if($sql->rowCounts() > 0) {
+        if($sql->rowCount() > 0) {
             $data = $sql->fetchAll();
         }
 
