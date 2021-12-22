@@ -10,12 +10,12 @@
 <body>
     <form method="POST" action="verificaUsuario.php"> <!--ENVIA OS DADOS PARA VERIFICAR SE ESSE USUARIO EXISTE E SE ELE TEM ACESSO AO RELATORIO-->
         <label>E-mail</label>
-        <input type="text" name="email_cli" placeholder="Digite o email">
+        <input type="text" name="email_usu" placeholder="Digite o email" required>
 
         <br><br>
 
         <label>Senha</label>
-        <input type="password" name="senha_cli" placeholder="Digite sua senha">
+        <input type="password" name="senha_usu" placeholder="Digite sua senha" required>
 
         <input type="submit" value="Acessar">
     </form>
