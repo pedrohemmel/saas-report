@@ -69,7 +69,7 @@ class UsuarioAdministradorDaoMysql implements UsuarioAdministradorDAO {
 
         $email = $email_adm;
 
-        $sql = $this->pdo->query("SELECT * FROM usuarios_administrador WHERE email_cli = '".$email."';");
+        $sql = $this->pdo->query("SELECT * FROM usuarios_administrador WHERE email_adm = '".$email."';");
         
       
 

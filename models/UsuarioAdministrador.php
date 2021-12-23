@@ -44,7 +44,7 @@ class UsuarioAdministrador {
     }
 
     public function setSenhaAdm($sa) {
-        $this->senha_adm = password_hash(trim($sa), PASSWORD_DEFAULT);
+        $this->senha_adm = trim($sa);
     }
 }
 

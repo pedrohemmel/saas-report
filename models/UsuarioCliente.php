@@ -52,7 +52,7 @@ class UsuarioCliente {
     }
 
     public function setSenhaCli($sc) {
-        $this->senha_cli = password_hash(trim($sc), PASSWORD_DEFAULT);
+        $this->senha_cli = trim($sc);
     } 
 
     public function getTelefoneCli() {

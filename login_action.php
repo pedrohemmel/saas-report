@@ -8,17 +8,10 @@ $email_cli = filter_input(INPUT_GET, 'email');
 
 $usuario = $UsuarioClienteDao->findByEmail($email_cli);
 
-
+/*FOI PEGO A SITUACAO DO USUARIO PARA QUE SEJA CONFIRMADO OU NEGADO O ACESSO DO USUARIO */
 foreach($usuario as $getUsuario) {
     $id = $getUsuario->getIdCli();
-    $nome = $getUsuario->getNomeCli();
-    $empresa = $getUsuario->getEmpresaCli();
-    $email = $getUsuario->getEmailCli();
-    $telefone = $getUsuario->getTelefoneCli();
-    $senha = $getUsuario->getSenhaCli();
     $situacao = $getUsuario->getSituacaoCli();
-    $dataHoraCadastro = $getUsuario->getDataHoraCadastro();
-    $dataLimite = $getUsuario->getDataLimiteAcesso();
 }
 
 

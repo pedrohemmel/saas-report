@@ -31,3 +31,9 @@ email_adm varchar(75) not null unique,
 telefone_adm char(11) not null unique,
 senha_adm varchar(100) not null,
 primary key(id_adm));
+
+create table relatorio_usuarios(
+id_rel int not null auto_increment,
+link_rel varchar(300) not null unique,
+data_rel datetime not null,
+primary key(id_rel));
