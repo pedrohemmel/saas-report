@@ -28,15 +28,17 @@ class UsuarioAdministradorDaoMysql implements UsuarioAdministradorDAO {
         return $ua;
     }
 
-    public function findAll() {
+    public function verifyRowByEmail($email_adm) {
+        $email = $email_adm;
 
+        $sql = $this->pdo->query("SELECT * FROM usuarios_administrador WHERE email_adm = '".$email."';");
 
+        return $sql->rowCount() > 0;
+    }
+
+    public function verifyRow() {
         $sql = $this->pdo->query("select * from usuarios_administrador");
-
-       
-
-
-        return $sql;
+        return $sql->rowCount() > 0;
     }
 
     public function findById($id_adm) {

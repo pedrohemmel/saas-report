@@ -51,7 +51,9 @@ class UsuarioAdministrador {
 interface UsuarioAdministradorDAO {
     public function add(UsuarioAdministrador $ua);
 
-    public function findAll();
+    public function verifyRowByEmail($email_adm);
+
+    public function verifyRow();
 
     public function findById($id_adm);
 

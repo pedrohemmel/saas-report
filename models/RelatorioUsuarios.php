@@ -35,6 +35,8 @@ interface RelatorioUsuariosDAO {
 
     public function findAll();
 
+    public function verifyRowByLink($link_rel);
+
     public function delete($id_rel);
 }
 ?>

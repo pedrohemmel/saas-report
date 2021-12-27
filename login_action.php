@@ -13,15 +13,19 @@ foreach($usuario as $getUsuario) {
     $id = $getUsuario->getIdCli();
     $situacao = $getUsuario->getSituacaoCli();
 }
-
-
-if($situacao == 'ativo') {
-    header('Location:relatorio.php?id='.$id); 
-    exit;
-} else if($situacao == 'inativo') {
-    header('Location:acessoNegado.php');
+if(!$_SESSION['logged']) {
+    if($situacao == 'ativo') {
+        header('Location:relatorio.php'); 
+        exit;
+    } else if($situacao == 'inativo') {
+        header('Location:acessoNegado.php');
+        exit;
+    }
+} else {
+    header('Location:index.php');
     exit;
 }
+
 
 
 

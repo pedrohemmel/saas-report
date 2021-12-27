@@ -4,11 +4,7 @@ require 'dao/UsuarioAdministradorDaoMysql.php';
 
 $UsuarioAdministradorDao = new UsuarioAdministradorDaoMysql($pdo);
 
-$usuarioAdm = $UsuarioAdministradorDao->findAll();
-
-
-
-if($usuarioAdm->rowCount() > 0) {
+if($UsuarioAdministradorDao->verifyRow()) {
     header('Location:login.php');
 } else {
     header('Location:cadastrarAdm.php');

@@ -12,6 +12,7 @@ class UsuarioCliente {
     private $data_hora_cadastro;
     private $situacao_cli;
     private $data_limite_acesso;
+    private $recupera_senha_cli;
 
     //criando as funções que vão aplicar e buscar valores das variaveis
 
@@ -87,6 +88,14 @@ class UsuarioCliente {
         $this->data_limite_acesso = trim($dla);
     }
 
+    public function getRecuperaSenhaCli() {
+        return $this->recupera_senha_cli;
+    }
+
+    public function setRecuperaSenhaCli($rsc) {
+        $this->recupera_senha_cli = trim($rsc);
+    }
+
 }
 
 //criando o DAO para ajudar na criação do CRUD do sistema
@@ -94,13 +103,21 @@ interface UsuarioClienteDAO {
 
     public function add(UsuarioCliente $uc);
 
+    public function verifyRowByKey($recupera_senha_cli);
+
+    public function verifyRowByEmail($email_cli);
+
     public function findAll();
+
+    public function findByKeyPass($recupera_senha_cli);
 
     public function findByEmail($email_cli);
 
     public function findById($id_cli);
 
     public function update(UsuarioCliente $uc);
+
+    public function updateRecuperarSenha(UsuarioCliente $uc);
 
     public function delete($id_cli);
 }

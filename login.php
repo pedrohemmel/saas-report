@@ -1,3 +1,19 @@
+<?php
+session_start();
+
+$_SESSION['erro'] = '<p style="color:#f00">Usuário ou senha incorretos</p>';
+$erroLogin = 'E-mail ou Senha incorreto';
+$erro = filter_input(INPUT_GET, 'erro');
+
+if(!empty($erro)) {
+    if(password_verify($erroLogin, $erro)) {
+        print_r($_SESSION['erro']);
+    }
+}
+
+
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,6 +22,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <body>
     <form method="POST" action="verificaUsuario.php"> <!--ENVIA OS DADOS PARA VERIFICAR SE ESSE USUARIO EXISTE E SE ELE TEM ACESSO AO RELATORIO-->
@@ -19,6 +36,7 @@
 
         <input type="submit" value="Acessar">
     </form>
+    <a href="recuperarSenha.php">Esqueceu a senha?</a>
     <p>Não tem conta? Clique <a href="cadastrar.php">aqui</a> e se cadastre agora.</p>
 </body>
 </html>

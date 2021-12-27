@@ -33,6 +33,22 @@ class UsuarioClienteDaoMysql implements UsuarioClienteDAO {
         return $uc;
     }
 
+    public function verifyRowByKey($recupera_senha_cli) {
+        $chave = $recupera_senha_cli;
+
+        $sql = $this->pdo->query("SELECT * FROM usuarios_cliente WHERE recupera_senha_cli = '".$chave."';");
+
+        return $sql->rowCount() > 0;
+    }
+
+    public function verifyRowByEmail($email_cli) {
+        $email = $email_cli;
+
+        $sql = $this->pdo->query("SELECT * FROM usuarios_cliente WHERE email_cli = '".$email."';");
+
+        return $sql->rowCount() > 0;
+    }
+
     public function findAll() {
         $array = [];
 
@@ -75,6 +91,36 @@ class UsuarioClienteDaoMysql implements UsuarioClienteDAO {
         }
 
         
+    }
+
+    public function findByKeyPass($recupera_senha_cli) {
+
+        $array = [];
+
+        $chave = $recupera_senha_cli;
+
+        $sql = $this->pdo->query("SELECT * FROM usuarios_cliente WHERE recupera_senha_cli = '".$chave."';");
+
+        if($sql->rowCount() > 0) {
+            $data = $sql->fetchAll();
+        }
+
+        foreach($data as $item) {
+            $uc = new UsuarioCliente;
+                $uc->setIdCli($item['id_cli']);
+                $uc->setNomeCli($item['nome_cli']);
+                $uc->setEmpresaCli($item['empresa_cli']);
+                $uc->setEmailCli($item['email_cli']);
+                $uc->setSenhaCli($item['senha_cli']);
+                $uc->setTelefoneCli($item['telefone_cli']);
+                $uc->setDataHoraCadastro($item['data_hora_cadastro']);
+                $uc->setSituacaoCli($item['situacao_cli']);
+                $uc->setDataLimiteAcesso($item['data_limite_acesso']);
+                $uc->setRecuperaSenhaCli($item['recupera_senha_cli']);
+        
+                $array[] = $uc;
+        }
+        return $array;
     }
 
     public function findByEmail($email_cli) {
@@ -162,8 +208,21 @@ class UsuarioClienteDaoMysql implements UsuarioClienteDAO {
         return $uc;
     }
 
-    public function delete($id_cli) {
+    public function updateRecuperarSenha(UsuarioCliente $uc) {
+        
+        $sql = $this->pdo->prepare('UPDATE usuarios_cliente SET recupera_senha_cli = :recupera_senha_cli WHERE id_cli = :id_cli;');
+        $sql->bindValue(':recupera_senha_cli', $uc->getRecuperaSenhaCli());
+        $sql->bindValue(':id_cli', $uc->getIdCli());
+        $sql->execute();
 
+        return $uc;
+    }
+
+    public function delete($id_cli) {
+        $id = $id_cli;
+
+        $sql = $this->pdo->prepare('DELETE FROM usuarios_cliente WHERE id_cli = '.$id.';');
+        $sql->execute();
     }
 }
 

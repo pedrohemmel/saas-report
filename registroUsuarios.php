@@ -18,9 +18,11 @@ $relatorioUsuario = $RelatorioUsuariosDao->findAll();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro usuários</title>
+    <title>Visualizar registros</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <body>
+    <a href="login.php">Logout</a>
     <table border="1" width="100%">
         <tr>
             <th>Id</th>
@@ -77,7 +79,6 @@ $relatorioUsuario = $RelatorioUsuariosDao->findAll();
             <td><?=$getRelatorio->getLinkRel();?></td>
             <td><?=$getRelatorio->getDataRel();?></td>
             <td>
-                <a href="editarLink.php?id=<?=$getRelatorio->getIdRel();?>">Editar</a>
                 <a href="apagarLink.php?id=<?=$getRelatorio->getIdRel();?>">Apagar</a>
             </td>
         </tr>

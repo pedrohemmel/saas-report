@@ -54,6 +54,14 @@ class RelatorioUsuariosDaoMysql implements RelatorioUsuariosDAO {
         
     }
 
+    public function verifyRowByLink($link_rel) {
+        $link = $link_rel;
+
+        $sql = $this->pdo->query("SELECT * FROM relatorio_usuarios WHERE link_rel = '".$link."';");
+
+        return $sql->rowCount() > 0;
+    }
+
     public function delete($id_rel) {
 
         $id = $id_rel;

@@ -22,6 +22,7 @@ telefone_cli char(11) not null unique,
 data_hora_cadastro datetime not null,
 situacao_cli char(7) not null check(situacao_cli = "ativo" || situacao_cli = "inativo"),
 data_limite_acesso datetime not null,
+recupera_senha_cli varchar(100),
 primary key(id_cli));
 
 create table usuarios_administrador(
