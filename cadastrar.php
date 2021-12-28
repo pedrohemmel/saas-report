@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 $erroCadastro = 'Dados foram inseridos incorretamente';
 $erro = filter_input(INPUT_GET, 'erro');
 
@@ -7,8 +10,6 @@ if(!empty($erro)) {
         echo '<p style="color:#f00">Dados foram inseridos incorretamente</p>';
     }
 }
-
-
 
 ?>
 

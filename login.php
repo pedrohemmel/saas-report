@@ -3,11 +3,17 @@ session_start();
 
 $_SESSION['erro'] = '<p style="color:#f00">Usuário ou senha incorretos</p>';
 $erroLogin = 'E-mail ou Senha incorreto';
+$msgLog = 'end';
 $erro = filter_input(INPUT_GET, 'erro');
+$msg = filter_input(INPUT_GET, 'msg');
 
 if(!empty($erro)) {
     if(password_verify($erroLogin, $erro)) {
         print_r($_SESSION['erro']);
+    }
+} else if(!empty($msg)) {
+    if(password_verify($msgLog, $msg)) {
+        $_SESSION['logged'] = false;
     }
 }
 

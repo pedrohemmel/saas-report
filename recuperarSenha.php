@@ -3,6 +3,10 @@
 require 'config.php';
 require 'dao/UsuarioClienteDaoMysql.php';
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 $email_usu = filter_input(INPUT_POST, 'email_usu');
 $erroAtualizaSenhaCrypt = filter_input(INPUT_GET, 'erro');
 

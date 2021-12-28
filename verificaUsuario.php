@@ -6,6 +6,10 @@ require 'dao/UsuarioAdministradorDaoMysql.php';
 session_start();
 $_SESSION['logged'] = $_SESSION['logged'] ?? false;
 
+//mensagem para o fim de uma sessao nos usuarios
+$_SESSION['end'] = 'end';
+$_SESSION['msg'] = password_hash($_SESSION['end'], PASSWORD_DEFAULT);
+
 date_default_timezone_set('America/Sao_Paulo');
 
 /*Utilizarei os 2 usuarios para verificar qual dos 2 está entrando no sistema, ou se nenhum dos dois esta entrando*/
@@ -18,8 +22,7 @@ $erroLoginCrypt = password_hash($erroLogin, PASSWORD_DEFAULT);
 
 $email_usu = filter_input(INPUT_POST, 'email_usu', FILTER_VALIDATE_EMAIL);
 $senha_usu = filter_input(INPUT_POST, 'senha_usu');
-$_SESSION['email'] = $email_usu;
-$_SESSION['senha'] = $senha_usu;
+
 
 /*SE EXISTIR O EMAIL DIGITADO, NA TABELA usuarios_cliente, OCORRE AS AÇÕES DENTRO DESSE IF*/
 if($UsuarioClienteDao->verifyRowByEmail($email_usu)) {
@@ -29,11 +32,8 @@ if($UsuarioClienteDao->verifyRowByEmail($email_usu)) {
     foreach($usuario as $getUsuario) {
         $id = $getUsuario->getIdCli();
         $nome = $getUsuario->getNomeCli();
-        $empresa = $getUsuario->getEmpresaCli();
         $email = $getUsuario->getEmailCli();
-        $telefone = $getUsuario->getTelefoneCli();
         $senha = $getUsuario->getSenhaCli();
-        $dataHoraCadastro = $getUsuario->getDataHoraCadastro();
         $dataLimite = $getUsuario->getDataLimiteAcesso();
     }
 
@@ -42,43 +42,29 @@ if($UsuarioClienteDao->verifyRowByEmail($email_usu)) {
 
     /*SE O USUARIO NAO ESTIVER DENTRO DO TEMPO DE ACESSO, OCORRE UM UPDATE PARA DEIXAR A situacao_cli INATIVA*/
     if(strtotime($dataAtual) >= strtotime($dataLimite)) {
+
         $acesso = 'inativo';
         $usuarioAlt = new UsuarioCliente;
         $usuarioAlt->setIdCli($id);
-        $usuarioAlt->setNomeCli($nome);
-        $usuarioAlt->setEmpresaCli($empresa);
-        $usuarioAlt->setEmailCli($email);
-        $usuarioAlt->setTelefoneCli($telefone);
-        $usuarioAlt->setSenhaCli($senha);
-        $usuarioAlt->setDataHoraCadastro($dataHoraCadastro);
         $usuarioAlt->setSituacaoCli($acesso);
-        $usuarioAlt->setDataLimiteAcesso($dataLimite);
+    
+        $UsuarioClienteDao->updateSituacao($usuarioAlt);
 
-        $UsuarioClienteDao->update($usuarioAlt);
-
-        
     } else if(strtotime($dataLimite) >= strtotime($dataAtual)) {
         $acesso = 'ativo';
         $usuarioAlt = new UsuarioCliente;
         $usuarioAlt->setIdCli($id);
-        $usuarioAlt->setNomeCli($nome);
-        $usuarioAlt->setEmpresaCli($empresa);
-        $usuarioAlt->setEmailCli($email);
-        $usuarioAlt->setTelefoneCli($telefone);
-        $usuarioAlt->setSenhaCli($senha);
-        $usuarioAlt->setDataHoraCadastro($dataHoraCadastro);
         $usuarioAlt->setSituacaoCli($acesso);
-        $usuarioAlt->setDataLimiteAcesso($dataLimite);
-
-        $UsuarioClienteDao->update($usuarioAlt);
+    
+        $UsuarioClienteDao->updateSituacao($usuarioAlt);
     }
 
-    if($_SESSION['email'] == $email && password_verify($_SESSION['senha'], $senha)) {  /*#@#@$@#$#@$ AQUI NÃO ESTÁ FUNCTIONANDO, A SENHA NAO FICA IGUAL A SENHA QUE ESTA NO BANCO*/
+    if($email_usu == $email && password_verify($senha_usu, $senha)) {  
         $_SESSION['email'] = $email;
         $_SESSION['senha'] = $senha;
         $_SESSION['nome'] = $nome;
         $_SESSION['logged'] = true;
-        header('Location:login_action.php?email='.$_SESSION['email']);
+        header('Location:login_action.php');
         exit;
     } else {
         header('Location:login.php?erro='.$erroLoginCrypt);
@@ -91,14 +77,12 @@ if($UsuarioClienteDao->verifyRowByEmail($email_usu)) {
     $usuarioAdministrador = $UsuarioAdministradorDao->findByEmail($email_usu);
 
     foreach($usuarioAdministrador as $getUsuario) {
-        $id_adm = $getUsuario->getIdAdm();
         $nome_adm = $getUsuario->getNomeAdm();
         $email_adm = $getUsuario->getEmailAdm();
-        $telefone_adm = $getUsuario->getTelefoneAdm();
         $senha_adm = $getUsuario->getSenhaAdm();
     }
 
-    if($_SESSION['email'] == $email_adm && $senha_usu == $senha_adm) {
+    if($email_usu == $email_adm && $senha_usu == $senha_adm) {
         $_SESSION['email'] = $email_adm;
         $_SESSION['senha'] = $senha_adm;
         $_SESSION['nome'] = $nome_adm;

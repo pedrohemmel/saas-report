@@ -117,6 +117,8 @@ interface UsuarioClienteDAO {
 
     public function update(UsuarioCliente $uc);
 
+    public function updateSituacao(UsuarioCliente $uc);
+
     public function updateRecuperarSenha(UsuarioCliente $uc);
 
     public function delete($id_cli);

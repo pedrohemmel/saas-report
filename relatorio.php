@@ -5,10 +5,16 @@ session_start();
 require 'config.php';
 require 'dao/RelatorioUsuariosDaoMysql.php';
 
+
 /*AQUI FOI PESQUISADO O NOME DO USUARIO PARA COLOCAR NA TELA*/
 $RelatorioUsuariosDao = new RelatorioUsuariosDaoMysql($pdo);
 
 $relatorioUsuario = $RelatorioUsuariosDao->findAll();
+
+if(!$_SESSION['logged']) {
+        header('Location:index.php');
+        exit;
+} 
 
 
 ?>
@@ -24,6 +30,8 @@ $relatorioUsuario = $RelatorioUsuariosDao->findAll();
 </head>
 <body>
     <p>Bem vindo, <?=$_SESSION['nome'];?></p>
+
+    <a href="login.php?msg=<?=$_SESSION['msg'];?>">Logout</a>
 
     <?php
     foreach($relatorioUsuario as $getRelatorio):

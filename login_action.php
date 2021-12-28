@@ -1,19 +1,22 @@
 <?php
+
+session_start();
+
 require 'config.php';
 require 'dao/UsuarioClienteDaoMysql.php';
 
 $UsuarioClienteDao = new UsuarioClienteDaoMysql($pdo);
 
-$email_cli = filter_input(INPUT_GET, 'email');
 
-$usuario = $UsuarioClienteDao->findByEmail($email_cli);
+
+$usuario = $UsuarioClienteDao->findByEmail($_SESSION['email']);
 
 /*FOI PEGO A SITUACAO DO USUARIO PARA QUE SEJA CONFIRMADO OU NEGADO O ACESSO DO USUARIO */
 foreach($usuario as $getUsuario) {
-    $id = $getUsuario->getIdCli();
     $situacao = $getUsuario->getSituacaoCli();
 }
-if(!$_SESSION['logged']) {
+
+if($_SESSION['logged']) {
     if($situacao == 'ativo') {
         header('Location:relatorio.php'); 
         exit;

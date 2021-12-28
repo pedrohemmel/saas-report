@@ -208,6 +208,18 @@ class UsuarioClienteDaoMysql implements UsuarioClienteDAO {
         return $uc;
     }
 
+    public function updateSituacao(UsuarioCliente $uc) {
+        $sql = $this->pdo->prepare("UPDATE usuarios_cliente SET 
+        situacao_cli = :situacao_cli
+        WHERE id_cli = :id_cli");
+
+        $sql->bindValue(':situacao_cli', $uc->getSituacaoCli());
+        $sql->bindValue(':id_cli', $uc->getIdCli());
+        $sql->execute();
+
+        return $uc;
+    }
+
     public function updateRecuperarSenha(UsuarioCliente $uc) {
         
         $sql = $this->pdo->prepare('UPDATE usuarios_cliente SET recupera_senha_cli = :recupera_senha_cli WHERE id_cli = :id_cli;');

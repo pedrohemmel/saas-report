@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 require 'config.php';
 require 'dao/UsuarioClienteDaoMysql.php';
 require 'dao/UsuarioAdministradorDaoMysql.php';
@@ -11,6 +14,11 @@ $RelatorioUsuariosDao = new RelatorioUsuariosDaoMysql($pdo);
 $usuarioCli = $UsuarioClienteDao->findAll();
 $relatorioUsuario = $RelatorioUsuariosDao->findAll();
 
+if(!$_SESSION['logged']) {
+    header('Location:index.php');
+    exit;
+} 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +30,8 @@ $relatorioUsuario = $RelatorioUsuariosDao->findAll();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <body>
-    <a href="login.php">Logout</a>
+    <a href="login.php?msg=<?=$_SESSION['msg'];?>">Logout</a>
+
     <table border="1" width="100%">
         <tr>
             <th>Id</th>
