@@ -33,6 +33,14 @@ class UsuarioClienteDaoMysql implements UsuarioClienteDAO {
         return $uc;
     }
 
+    public function verifyRowById($id_cli) {
+        $id = $id_cli;
+
+        $sql = $this->pdo->query("SELECT * FROM usuarios_cliente WHERE id_cli = '".$id."';");
+
+        return $sql->rowCount() > 0;
+    }
+
     public function verifyRowByKey($recupera_senha_cli) {
         $chave = $recupera_senha_cli;
 
@@ -45,6 +53,14 @@ class UsuarioClienteDaoMysql implements UsuarioClienteDAO {
         $email = $email_cli;
 
         $sql = $this->pdo->query("SELECT * FROM usuarios_cliente WHERE email_cli = '".$email."';");
+
+        return $sql->rowCount() > 0;
+    }
+
+    public function verifyRowByPhone($telefone_cli) {
+        $telefone = $telefone_cli;
+
+        $sql = $this->pdo->query("SELECT * FROM usuarios_cliente WHERE telefone_cli = '".$telefone."';");
 
         return $sql->rowCount() > 0;
     }
@@ -187,20 +203,14 @@ class UsuarioClienteDaoMysql implements UsuarioClienteDAO {
         nome_cli = :nome_cli,
         empresa_cli = :empresa_cli,
         email_cli = :email_cli,
-        senha_cli = :senha_cli,
         telefone_cli = :telefone_cli,
-        data_hora_cadastro = :data_hora_cadastro,
-        situacao_cli = :situacao_cli,
         data_limite_acesso = :data_limite_acesso
         WHERE id_cli = :id_cli");
 
         $sql->bindValue(':nome_cli', $uc->getNomeCli());
         $sql->bindValue(':empresa_cli', $uc->getEmpresaCli());
         $sql->bindValue(':email_cli', $uc->getEmailCli());
-        $sql->bindValue(':senha_cli', $uc->getSenhaCli());
         $sql->bindValue(':telefone_cli', $uc->getTelefoneCli());
-        $sql->bindValue(':data_hora_cadastro', $uc->getDataHoraCadastro());
-        $sql->bindValue(':situacao_cli', $uc->getSituacaoCli());
         $sql->bindValue(':data_limite_acesso', $uc->getDataLimiteAcesso());
         $sql->bindValue(':id_cli', $uc->getIdCli());
         $sql->execute();
@@ -224,6 +234,15 @@ class UsuarioClienteDaoMysql implements UsuarioClienteDAO {
         
         $sql = $this->pdo->prepare('UPDATE usuarios_cliente SET recupera_senha_cli = :recupera_senha_cli WHERE id_cli = :id_cli;');
         $sql->bindValue(':recupera_senha_cli', $uc->getRecuperaSenhaCli());
+        $sql->bindValue(':id_cli', $uc->getIdCli());
+        $sql->execute();
+
+        return $uc;
+    }
+
+    public function updateNovaSenha(UsuarioCliente $uc) {
+        $sql = $this->pdo->prepare('UPDATE usuarios_cliente SET senha_cli = :senha_cli WHERE id_cli = :id_cli;');
+        $sql->bindValue(':senha_cli', $uc->getSenhaCli());
         $sql->bindValue(':id_cli', $uc->getIdCli());
         $sql->execute();
 

@@ -6,6 +6,7 @@ $erroLogin = 'E-mail ou Senha incorreto';
 $msgLog = 'end';
 $erro = filter_input(INPUT_GET, 'erro');
 $msg = filter_input(INPUT_GET, 'msg');
+$chaveRe = filter_input(INPUT_GET, 'chaveRe');
 
 if(!empty($erro)) {
     if(password_verify($erroLogin, $erro)) {
@@ -15,9 +16,9 @@ if(!empty($erro)) {
     if(password_verify($msgLog, $msg)) {
         $_SESSION['logged'] = false;
     }
+} else if(!empty($chaveRe)) {
+    print_r($_SESSION['chaveRe']);
 }
-
-
 
 ?>
 

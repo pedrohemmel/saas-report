@@ -6,6 +6,8 @@ require 'dao/UsuarioClienteDaoMysql.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+require 'lib/vendor/autoload.php';
+$mail = new PHPMailer(true);
 
 $email_usu = filter_input(INPUT_POST, 'email_usu');
 $erroAtualizaSenhaCrypt = filter_input(INPUT_GET, 'erro');
@@ -22,6 +24,7 @@ if(!empty($email_usu)) {
 
         foreach($usuario as $getUsuario) {
             $id = $getUsuario->getIdCli();
+            $nome_usu = $getUsuario->getNomeCli();
         }  
 
         $chave_recuperar_senha = password_hash($id, PASSWORD_DEFAULT);
@@ -32,9 +35,71 @@ if(!empty($email_usu)) {
 
         $UsuarioClienteDao->updateRecuperarSenha($usuario_recuperar_senha);
         
+        $link = 'http://localhost/saas-report/atualizarSenha.php?chave='.$chave_recuperar_senha;
 
-        header('Location:http://localhost/saas-report/atualizarSenha.php?chave='.$chave_recuperar_senha);
-        exit;
+        try {
+            //$mail->SMTPDebug = SMTP::DEBUG_SERVER;   
+            $mail->CharSet = 'UTF-8';                 
+            $mail->isSMTP();                                           
+            $mail->Host       = 'smtp.mailtrap.io';                 
+            $mail->SMTPAuth   = true;                               
+            $mail->Username   = '8ac89040fac6e3';              
+            $mail->Password   = '227792651bb216';                           
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;   
+            $mail->Port       = 2525; 
+
+            $mail->setFrom('atendimento@mailtrap.com', 'Atendimento');
+            $mail->addAddress($email_usu, $nome_usu);  
+
+            $mail->isHTML(true);                                  //Set email format to HTML
+            $mail->Subject = 'Recuperar senha';
+            $mail->Body    = '
+            Prezado(a) '.$nome_usu.'. Você solicitou alteração de senha.
+
+            <br><br>
+
+            Para continuar com o processo de recuperação de sua senha, clique no link abaixo ou cole
+            o endereço no seu navegador:
+
+            <br><br>
+
+            '.$link.'
+            
+            <br><br>
+            
+            Se você não solicitou essa alteração, nenhuma ação é necessária. Sua senha permanecerá
+            a mesma até que você ative esse código.
+            
+            <br><br>';
+            $mail->AltBody = 'Prezado(a) '.$nome_usu.'. Você solicitou alteração de senha.
+
+            \n\n
+
+            Para continuar com o processo de recuperação de sua senha, clique no link abaixo ou cole
+            o endereço no seu navegador:
+
+            \n\n
+
+            '.$link.'
+            
+            \n\n
+            
+            Se você não solicitou essa alteração, nenhuma ação é necessária. Sua senha permanecerá
+            a mesma até que você ative esse código.
+            
+            \n\n';
+
+            $mail->send();
+
+            $_SESSION['msgMail'] = "<p style='color:green'> Enviado e-mail com instruções para recuperar a senha.
+            Acesse a sua caixa de e-mail para recuperar a senha!</p>";
+
+            print_r($_SESSION['msgMail']);
+
+        } catch (Exception $e) {
+            echo "Erro: E-mail não enviado. Mailer Error: {$mail->ErrorInfo}";
+        }
+
     } else {
         echo '<p style="color:#f00">E-mail não existente no sistema</p>';
     }
@@ -45,9 +110,6 @@ if(!empty($email_usu)) {
 if(password_verify($erroAtualizaSenha, $erroAtualizaSenhaCrypt)) {
     echo '<p style="color:#f00">Erro ao acessar página, solicite um novo link</p>';
 }
-
-
-
 
 ?>
 
@@ -71,6 +133,7 @@ if(password_verify($erroAtualizaSenha, $erroAtualizaSenhaCrypt)) {
         <input type="submit" value="Recuperar">
     </form>
 
+    <p>Lembrou? <a href="login.php">Fazer logIn</a></p>
     <p>Não tem conta? Clique <a href="cadastrar.php">aqui</a> e se cadastre agora.</p>
 </body>
 </html>

@@ -2,6 +2,11 @@
 
 session_start();
 
+if(!$_SESSION['logged']) {
+    header('Location:index.php');
+    exit;
+} 
+
 require 'config.php';
 require 'dao/RelatorioUsuariosDaoMysql.php';
 
@@ -10,12 +15,6 @@ require 'dao/RelatorioUsuariosDaoMysql.php';
 $RelatorioUsuariosDao = new RelatorioUsuariosDaoMysql($pdo);
 
 $relatorioUsuario = $RelatorioUsuariosDao->findAll();
-
-if(!$_SESSION['logged']) {
-        header('Location:index.php');
-        exit;
-} 
-
 
 ?>
 

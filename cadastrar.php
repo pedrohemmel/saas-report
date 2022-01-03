@@ -2,13 +2,11 @@
 
 session_start();
 
-$erroCadastro = 'Dados foram inseridos incorretamente';
-$erro = filter_input(INPUT_GET, 'erro');
 
-if(!empty($erro)) {
-    if(password_verify($erroCadastro, $erro)) {
-        echo '<p style="color:#f00">Dados foram inseridos incorretamente</p>';
-    }
+$erroCadastroCrypt = filter_input(INPUT_GET, 'erro');
+
+if(!empty($erroCadastroCrypt)) {
+        print_r($_SESSION['erroCadastro']);
 }
 
 ?>
@@ -25,7 +23,7 @@ if(!empty($erro)) {
 <body>
     <!--Criando um formulário com action para o cadastrar_action.php que vai confirmar os dados e subir pro banco de dados
 como um registro-->
-    <form method="POST" action="cadastrar_action.php" name="formularioCadastro">
+    <form method="POST" action="cadastrar_action.php">
         <label>Nome completo</label>
             <input type="text" name="nome_cli" placeholder="Digite seu nome completo" required>
         <br><br>

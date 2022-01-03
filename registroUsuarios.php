@@ -2,6 +2,8 @@
 
 session_start();
 
+$_SESSION['admLogged'] = true;
+
 require 'config.php';
 require 'dao/UsuarioClienteDaoMysql.php';
 require 'dao/UsuarioAdministradorDaoMysql.php';
@@ -11,13 +13,62 @@ $UsuarioClienteDao = new UsuarioClienteDaoMysql($pdo);
 $UsuarioAdministradorDao = new UsuarioAdministradorDaoMysql($pdo);
 $RelatorioUsuariosDao = new RelatorioUsuariosDaoMysql($pdo);
 
+$msg = filter_input(INPUT_GET, 'msg');
+$id = filter_input(INPUT_GET, 'id');
+
 $usuarioCli = $UsuarioClienteDao->findAll();
 $relatorioUsuario = $RelatorioUsuariosDao->findAll();
+
+
 
 if(!$_SESSION['logged']) {
     header('Location:index.php');
     exit;
 } 
+
+
+if(!empty($msg)) {
+    if(password_verify($_SESSION['msgAlt'], $msg)) {
+        print_r($_SESSION['msgAlt']);
+    }
+}
+
+if(!empty($id)) {
+    if($UsuarioClienteDao->verifyRowById($id)) {
+       $usuarioCliAlt = $UsuarioClienteDao->findById($id);  
+
+       foreach($usuarioCliAlt as $getNewUsuario) {
+            $id_cli = $getNewUsuario->getIdCli();
+            $status = $getNewUsuario->getSituacaoCli();
+            $dataHoraCadastro = $getNewUsuario->getDataHoraCadastro();
+            $dataLimiteAcesso = $getNewUsuario->getDataLimiteAcesso();
+        }
+
+        $dataAtual = date('Y/m/d H:i:s');
+
+        if(strtotime($dataLimiteAcesso) <= strtotime($dataAtual) && $status === 'ativo') {
+            $acesso = 'inativo';
+            $usuarioAlt = new UsuarioCliente;
+            $usuarioAlt->setIdCli($id_cli);
+            $usuarioAlt->setSituacaoCli($acesso);
+            
+            $UsuarioClienteDao->updateSituacao($usuarioAlt);
+        
+            header('Location:registroUsuarios.php');
+            exit;
+        } else if(strtotime($dataLimiteAcesso) >= strtotime($dataAtual) && $status === 'inativo') {
+            $acesso = 'ativo';
+            $usuarioAlt = new UsuarioCliente;
+            $usuarioAlt->setIdCli($id_cli);
+            $usuarioAlt->setSituacaoCli($acesso);
+            
+            $UsuarioClienteDao->updateSituacao($usuarioAlt);
+        
+            header('Location:registroUsuarios.php');
+            exit;
+        }
+    }
+}
 
 ?>
 <!DOCTYPE html>
@@ -59,6 +110,7 @@ if(!$_SESSION['logged']) {
             <td>
                 <a href="editarCli.php?id=<?=$getUsuario->getIdCli();?>">Editar</a>
                 <a href="apagarCli.php?id=<?=$getUsuario->getIdCli();?>">Apagar</a>
+                <a href="registroUsuarios.php?id=<?=$getUsuario->getIdCli();?>">Atuaizar</a>
             </td>
         </tr>
         <?php

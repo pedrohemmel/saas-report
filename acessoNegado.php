@@ -1,11 +1,4 @@
-<?php
-session_start();
 
-if(!$session['logged']) {
-    header('Location:index.php');
-    exit;
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

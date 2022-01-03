@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 require 'config.php';
 require 'dao/UsuarioClienteDaoMysql.php';
 
@@ -8,10 +11,10 @@ $UsuarioClienteDao = new UsuarioClienteDaoMysql($pdo);
 $erroAtualizaSenha = 'Erro ao acessar página, solicite um novo link';
 $erroAtualizaSenhaCrypt = password_hash($erroAtualizaSenha, PASSWORD_DEFAULT);
 
-$chave = filter_input(INPUT_GET, 'chave');
+$_SESSION['chave'] = filter_input(INPUT_GET, 'chave');
 
-if($UsuarioClienteDao->verifyRowByKey($chave)) {
-    $usuarioPorChave = $UsuarioClienteDao->findByKeyPass($chave);
+if($UsuarioClienteDao->verifyRowByKey($_SESSION['chave'])) {
+    $usuarioPorChave = $UsuarioClienteDao->findByKeyPass($_SESSION['chave']);
 
     foreach($usuarioPorChave as $getUsuario) {
         $nomeCli = $getUsuario->getNomeCli();
@@ -21,8 +24,6 @@ if($UsuarioClienteDao->verifyRowByKey($chave)) {
     header('Location:recuperarSenha.php?erro='.$erroAtualizaSenhaCrypt);
     exit;
 }
-
-
 
 
 
@@ -40,7 +41,7 @@ if($UsuarioClienteDao->verifyRowByKey($chave)) {
 <body>
     <form method="POST" action="atualizaSenha_action.php">
         <label>Senha</label>
-        <input type="text" name="senha_cli" placeholder="Digite sua nova senha" required>
+        <input type="password" name="nova_senha_cli" placeholder="Digite sua nova senha" required>
 
         <br><br>
 

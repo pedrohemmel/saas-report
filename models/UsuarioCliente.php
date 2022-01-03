@@ -105,7 +105,11 @@ interface UsuarioClienteDAO {
 
     public function verifyRowByKey($recupera_senha_cli);
 
+    public function verifyRowById($id_cli);
+
     public function verifyRowByEmail($email_cli);
+
+    public function verifyRowByPhone($telefone_cli);
 
     public function findAll();
 
@@ -120,6 +124,8 @@ interface UsuarioClienteDAO {
     public function updateSituacao(UsuarioCliente $uc);
 
     public function updateRecuperarSenha(UsuarioCliente $uc);
+
+    public function updateNovaSenha(UsuarioCliente $uc);
 
     public function delete($id_cli);
 }

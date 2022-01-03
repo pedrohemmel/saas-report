@@ -1,5 +1,12 @@
 <?php
 
+session_start();
+
+if(!$_SESSION['logged'] && !$_SESSION['admLogged']) {
+    header('Location:index.php');
+    exit;
+}
+
 require 'config.php';
 require 'dao/RelatorioUsuariosDaoMysql.php';
 
