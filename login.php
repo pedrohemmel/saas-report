@@ -29,21 +29,31 @@ if(!empty($erro)) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <!--BOOTSTRAP-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!--ARQUIVO CSS-->
+    <link rel="stylesheet" href="assets/style/base.css"/>
+    <!--FONTE MARCELLUS-SC-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus+SC&display=swap" rel="stylesheet">
 </head>
 <body>
-    <form method="POST" action="verificaUsuario.php"> <!--ENVIA OS DADOS PARA VERIFICAR SE ESSE USUARIO EXISTE E SE ELE TEM ACESSO AO RELATORIO-->
-        <label>E-mail</label>
-        <input type="text" name="email_usu" placeholder="Digite o email" required>
+    <div class="container">
+        <form method="POST" action="verificaUsuario.php"> <!--ENVIA OS DADOS PARA VERIFICAR SE ESSE USUARIO EXISTE E SE ELE TEM ACESSO AO RELATORIO-->
+            <label>E-mail</label>
+            <input type="text" name="email_usu" placeholder="Digite o email" required>
 
-        <br><br>
+            <br><br>
 
-        <label>Senha</label>
-        <input type="password" name="senha_usu" placeholder="Digite sua senha" required>
+            <label>Senha</label>
+            <input type="password" name="senha_usu" placeholder="Digite sua senha" required>
 
-        <input type="submit" value="Acessar">
-    </form>
-    <a href="recuperarSenha.php">Esqueceu a senha?</a>
-    <p>Não tem conta? Clique <a href="cadastrar.php">aqui</a> e se cadastre agora.</p>
+            <input type="submit" value="Acessar">
+        </form>
+        
+        <a href="recuperarSenha.php">Esqueceu a senha?</a>
+        <p>Não tem conta? Clique <a href="cadastrar.php">aqui</a> e se cadastre agora.</p>
+    </div>
 </body>
 </html>

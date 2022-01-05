@@ -1,0 +1,13 @@
+:root {
+    --background-color: #fdf4e8;
+    --primary-color: #f4ca8c;
+    --secondary-color: #e2ae61;
+    --tertiary-color: #2c4d38;
+    --black-color: #000;
+}
+
+body {
+    background-color:var(--background-color);
+    font-family: 'Marcellus SC', serif;
+}
+
