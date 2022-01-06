@@ -6,8 +6,93 @@
     --black-color: #000;
 }
 
+/*TAGS PRONTAS*/
+
+hr {
+    background-color:#c5c5c5; 
+}
+
+/*TAGS PRONTAS*/
+
+/*CLASSES PRONTAS*/
+
+.color-primary {
+    color: var(--primary-color);
+}
+
+.color-secondary {
+    color: var(--secondary-color);
+}
+
+.color-tertiary {
+    color: var(--tertiary-color);
+}
+
+.color-white {
+    color: #fff;
+}
+
+.background-primary-color {
+    background-color: var(--primary-color);
+}
+
+.background-secondary-color {
+    background-color: var(--secondary-color);
+}
+
+.background-tertiary-color {
+    background-color: var(--tertiary-color);
+}
+
+.inputAlt {
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-color: #c5c5c5;
+}
+
+.maxWidth {
+    width: 100%;
+}
+
+.noDecorations {
+    text-decoration: none;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.border-none {
+    border: none;
+}
+
+.border-radius-button {
+    border-radius: 10px;
+}
+
+.submit-padding-top-bottom {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+/*CLASSES PRONTAS*/
+
+
 body {
     background-color:var(--background-color);
     font-family: 'Marcellus SC', serif;
+}
+
+.formBase {
+    background-color: #fff;
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+
+    margin-top: 1em;
 }
 

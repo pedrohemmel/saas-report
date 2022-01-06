@@ -39,21 +39,34 @@ if(!empty($erro)) {
     <link href="https://fonts.googleapis.com/css2?family=Marcellus+SC&display=swap" rel="stylesheet">
 </head>
 <body>
+    <header class="topBar">
+        <div class="container">
+
+
+        </div>
+    </header>
     <div class="container">
-        <form method="POST" action="verificaUsuario.php"> <!--ENVIA OS DADOS PARA VERIFICAR SE ESSE USUARIO EXISTE E SE ELE TEM ACESSO AO RELATORIO-->
-            <label>E-mail</label>
-            <input type="text" name="email_usu" placeholder="Digite o email" required>
+        <section class="border-radius-button formBase">
+            <form method="POST" action="verificaUsuario.php"> <!--ENVIA OS DADOS PARA VERIFICAR SE ESSE USUARIO EXISTE E SE ELE TEM ACESSO AO RELATORIO-->
+                <input class="inputAlt maxWidth" type="text" name="email_usu" placeholder="Digite o email" required>
 
-            <br><br>
+                <br><br>
 
-            <label>Senha</label>
-            <input type="password" name="senha_usu" placeholder="Digite sua senha" required>
+                <input class="inputAlt maxWidth" type="password" name="senha_usu" placeholder="Digite sua senha" required>
 
-            <input type="submit" value="Acessar">
-        </form>
-        
-        <a href="recuperarSenha.php">Esqueceu a senha?</a>
-        <p>Não tem conta? Clique <a href="cadastrar.php">aqui</a> e se cadastre agora.</p>
+                <br><br>
+
+                <input class="border-radius-button submit-padding-top-bottom maxWidth background-primary-color border-none color-white" type="submit" value="Entrar">
+            </form>
+
+            <br>
+
+            <a class="noDecorations color-primary text-center" href="cadastrar.php">Cadastre-se</a>
+
+            <hr>
+
+            <a class="noDecorations color-primary text-center" href="recuperarSenha.php">Esqueceu a senha?</a>
+        </section>
     </div>
 </body>
 </html>
