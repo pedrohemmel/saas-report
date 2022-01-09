@@ -69,6 +69,37 @@ if($nome_cli && $empresa_cli && $email_cli && $telefone_cli) {
 
         $UsuarioClienteDao->update($usuarioAlt);
 
+        //Atualizar status
+
+        $usuarioCliAlt = $UsuarioClienteDao->findById($_SESSION['id_cli']);  
+
+        foreach($usuarioCliAlt as $getNewUsuario) {
+            $id_cli = $getNewUsuario->getIdCli();
+            $status = $getNewUsuario->getSituacaoCli();
+            $dataHoraCadastro = $getNewUsuario->getDataHoraCadastro();
+            $dataLimiteAcesso = $getNewUsuario->getDataLimiteAcesso();
+        }
+
+        $dataAtual = date('Y/m/d H:i:s');
+
+        if(strtotime($dataLimiteAcesso) <= strtotime($dataAtual) && $status === 'ativo') {
+            $acesso = 'inativo';
+            $usuarioAlt = new UsuarioCliente;
+            $usuarioAlt->setIdCli($id_cli);
+            $usuarioAlt->setSituacaoCli($acesso);
+            
+            $UsuarioClienteDao->updateSituacao($usuarioAlt);
+
+        } else if(strtotime($dataLimiteAcesso) >= strtotime($dataAtual) && $status === 'inativo') {
+            $acesso = 'ativo';
+            $usuarioAlt = new UsuarioCliente;
+            $usuarioAlt->setIdCli($id_cli);
+            $usuarioAlt->setSituacaoCli($acesso);
+            
+            $UsuarioClienteDao->updateSituacao($usuarioAlt);
+        }
+         
+
         $_SESSION['msgAlt'] = '<p style="color:green">Dados alterados com sucesso.</p>';
         $_SESSION['msgAltCrypt'] = password_hash($_SESSION['msgAlt'], PASSWORD_DEFAULT);
         header('Location:registroUsuarios.php?msg='.$_SESSION['msgAltCrypt']);

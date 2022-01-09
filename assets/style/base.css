@@ -52,6 +52,14 @@ hr {
     border-color: #c5c5c5;
 }
 
+.topBar .container {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+    align-items: center;
+}
+
 .maxWidth {
     width: 100%;
 }
@@ -76,12 +84,9 @@ hr {
     padding-top: 15px;
     padding-bottom: 15px;
 }
-/*CLASSES PRONTAS*/
 
-
-body {
-    background-color:var(--background-color);
-    font-family: 'Marcellus SC', serif;
+.submit-padding-exit {
+    padding: 5px 15px;
 }
 
 .formBase {
@@ -92,7 +97,43 @@ body {
     flex-direction: column;
 
     justify-content: center;
-
-    margin-top: 1em;
 }
+
+.link-color-primary:hover {
+    color: var(--primary-color);
+}
+
+.link-color-white:hover {
+    color: #fff;
+}
+
+.bi-margin-exit {
+    margin-left: 5px;
+}
+
+input:focus {
+    outline:none;
+    
+}
+
+
+/*Utilizei para tirar o fundo azul automatico do input*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+
+
+/*CLASSES PRONTAS*/
+
+
+body {
+    background-color:var(--background-color);
+    font-family: 'Marcellus SC', serif;
+}
+
+
 

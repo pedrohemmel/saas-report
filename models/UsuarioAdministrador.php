@@ -3,6 +3,7 @@
 class UsuarioAdministrador {
     private $id_adm;
     private $nome_adm;
+    private $email_adm_ctt;
     private $email_adm;
     private $telefone_adm;
     private $senha_adm;
@@ -21,6 +22,14 @@ class UsuarioAdministrador {
 
     public function setNomeAdm($na) {
         $this->nome_adm = trim($na);
+    }
+
+    public function getEmailAdmCtt() {
+        return $this->email_adm_ctt;
+    }
+
+    public function setEmailAdmCtt($eac) {
+        $this->email_adm_ctt = trim($eac);
     }
 
     public function getEmailAdm() {

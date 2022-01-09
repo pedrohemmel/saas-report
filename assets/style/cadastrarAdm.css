@@ -1,0 +1,35 @@
+:root {
+    --background-color: #fdf4e8;
+    --primary-color: #f4ca8c;
+    --secondary-color: #e2ae61;
+    --tertiary-color: #2c4d38;
+    --black-color: #000;
+}
+
+
+#formCadastrarAdm {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+@media screen and (min-width: 768px) {
+    #formCadastrarAdm {
+        width: 80%;
+    }
+
+    #containerCadastrarAdm {
+        display: flex;
+        flex-direction: column;
+
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media screen and (min-width:992px) {
+    #formCadastrarAdm {
+        width: 60%;
+    }
+}
+
+

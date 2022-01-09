@@ -1,0 +1,46 @@
+:root {
+    --background-color: #fdf4e8;
+    --primary-color: #f4ca8c;
+    --secondary-color: #e2ae61;
+    --tertiary-color: #2c4d38;
+    --black-color: #000;
+}
+
+.topBar .container {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+    align-items: center;
+}
+
+.fundoBemVindo {
+    background-color: var(--primary-color);
+
+    padding: 10px 10px 5px 10px;
+
+    margin-top: -5px;
+
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+
+.iframRel {
+    margin: 1em 0;
+}
+
+
+@media screen and (min-width: 768px) {
+
+
+    .fundoBemVindo {
+        width: 70%;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .fundoBemVindo {       
+        width: 50%;
+    }
+}

@@ -63,6 +63,7 @@ if($UsuarioClienteDao->verifyRowByEmail($email_usu)) {
         $_SESSION['email'] = $email;
         $_SESSION['senha'] = $senha;
         $_SESSION['nome'] = $nome;
+        $_SESSION['dataLimite'] = $dataLimite;
         $_SESSION['logged'] = true;
         header('Location:login_action.php');
         exit;

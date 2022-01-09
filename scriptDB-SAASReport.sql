@@ -28,6 +28,7 @@ primary key(id_cli));
 create table usuarios_administrador(
 id_adm int not null auto_increment,
 nome_adm varchar(100) not null,
+email_adm_ctt varchar(75) not null unique,
 email_adm varchar(75) not null unique,
 telefone_adm char(11) not null unique,
 senha_adm varchar(100) not null,
