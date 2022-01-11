@@ -1,0 +1,59 @@
+:root {
+    --background-color: #fdf4e8;
+    --primary-color: #f4ca8c;
+    --secondary-color: #e2ae61;
+    --tertiary-color: #2c4d38;
+    --black-color: #000;
+}
+
+.topBar .container {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+    align-items: center;
+}
+
+th,
+td {
+    text-align: center;
+
+    padding: 15px 10px;
+}
+
+th {
+    background-color: var(--tertiary-color);
+
+    color: #fff;
+}
+
+td {
+    background-color: #fff;
+}
+
+
+#formRegistrarLink {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    align-items: start;
+    justify-content: center;
+
+    padding: 30px 0;
+}
+
+
+@media screen and (min-width: 768px) {
+    #formRegistrarLink {
+        width: 400px;
+    }
+}
+
+.inputLink:-webkit-autofill,
+.inputLink:-webkit-autofill:hover, 
+.inputLink:-webkit-autofill:focus, 
+.inputLink:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px #fdf4e8 inset !important;
+}

@@ -2,6 +2,7 @@
 
 class RelatorioUsuarios {
     private $id_rel;
+    private $name_link_rel;
     private $link_rel;
     private $data_rel;
 
@@ -11,6 +12,14 @@ class RelatorioUsuarios {
 
     public function setIdRel($ir) {
         $this->id_rel = trim($ir);
+    }
+
+    public function getNameLinkRel() {
+        return $this->name_link_rel;
+    }
+
+    public function setNameLinkRel($nlr) {
+        $this->name_link_rel = trim($nlr);
     }
 
     public function getLinkRel() {

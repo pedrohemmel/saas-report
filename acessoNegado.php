@@ -1,5 +1,17 @@
 <?php
 session_start();
+
+require 'config.php';
+require 'dao/UsuarioAdministradorDaoMysql.php';
+
+$UsuarioAministradorDao = new UsuarioAdministradorDaoMysql($pdo);
+
+$usuarioAdm = $UsuarioAministradorDao->findAll();
+
+foreach($usuarioAdm as $getUsuarioAdm) {
+    $telefone = $getUsuarioAdm->getTelefoneAdm();
+    $email_ctt = $getUsuarioAdm->getEmailAdmCtt();
+}
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +41,12 @@ session_start();
         
     </header>
     <main class="container" id="blocoAcessoNegado">
-        <p class="border-radius-button msgErroAcessoNegado" style="color: #f00">Você não tem acesso ao relatório, entre em contato com a administração para solicitar o acesso novamente.</p>
+        <div class="border-radius-button msgErroAcessoNegado">
+            <p style="color: #f00; margin-bottom: 4em;">Você não tem acesso ao relatório, entre em contato com a administração para solicitar o acesso novamente.</p>
+            <p><?=$telefone;?></p>
+            <p><?=$email_ctt;?></p>
+        </div>
+        
     </main>
     
 </body>

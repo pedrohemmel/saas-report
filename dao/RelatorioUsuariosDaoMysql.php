@@ -11,11 +11,12 @@ class RelatorioUsuariosDaoMysql implements RelatorioUsuariosDAO {
 
     public function add(RelatorioUsuarios $ru) {
         $sql = $this->pdo->prepare('INSERT INTO 
-        relatorio_usuarios(link_rel, data_rel)
+        relatorio_usuarios(name_link_rel, link_rel, data_rel)
             VALUES
-        (:link_rel, :data_rel);');
+        (:name_link_rel, :link_rel, :data_rel);');
 
         $sql->bindValue(':link_rel', $ru->getLinkRel());
+        $sql->bindValue(':name_link_rel', $ru->getNameLinkRel());
         $sql->bindValue(':data_rel', $ru->getDataRel());
         $sql->execute();
 
@@ -32,6 +33,7 @@ class RelatorioUsuariosDaoMysql implements RelatorioUsuariosDAO {
             foreach($data as $item) {
                 $ru = new RelatorioUsuarios;
                 $ru->setIdRel($item['id_rel']);
+                $ru->setNameLinkRel($item['name_link_rel']);
                 $ru->setLinkRel($item['link_rel']);
                 $ru->setDataRel($item['data_rel']);
     
@@ -43,6 +45,7 @@ class RelatorioUsuariosDaoMysql implements RelatorioUsuariosDAO {
             foreach($data as $item) {
                 $ru = new RelatorioUsuarios;
                 $ru->setIdRel($item['']);
+                $ru->setNameLinkRel($item['']);
                 $ru->setLinkRel($item['']);
                 $ru->setDataRel($item['']);
     

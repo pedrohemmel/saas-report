@@ -26,6 +26,15 @@ if(!$_SESSION['logged']) {
     exit;
 } 
 
+//VER MAIS
+if(!empty($_SESSION['verMais'])) {
+    if(!($_SESSION['verMais'] == 'verMaisBlock'))  {
+        $_SESSION['verMais'] == 'verMaisNone';
+    }
+} else {
+    $_SESSION['verMais'] == 'verMaisNone';
+}
+
 
 if(!empty($msg)) {
     if(password_verify($_SESSION['msgAlt'], $msg)) {
@@ -78,75 +87,103 @@ if(!empty($id)) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visualizar registros</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+   <!--BOOTSTRAP-->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <!--ARQUIVO CSS-->
+    <link rel="stylesheet" href="assets/style/base.css"/>
+    <link rel="stylesheet" href="assets/style/registroUsuarios.css"/>
+    <!--FONTE MARCELLUS-SC-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus+SC&display=swap" rel="stylesheet">
 </head>
 <body>
-    <a href="login.php?msg=<?=$_SESSION['msg'];?>">Logout</a>
+    <header class="topBar background-primary-color">
+        <div class="container">
+            <img width="50px" src="assets/img/logoSaas.svg">
+            <a class="background-secondary-color noDecorations submit-padding-exit color-white border-radius-button link-color-white" href="login.php?msg=<?=$_SESSION['msg'];?>">Sair <i class="bi bi-box-arrow-right bi-margin-exit color-white"></i></a>
+        </div>
+        
+    </header>
 
-    <table border="1" width="100%">
-        <tr>
-            <th>Id</th>
-            <th>Nome</th>
-            <th>Empresa</th>
-            <th>Email</th>
-            <th>Telefone</th>
-            <th>Data d/registro</th>
-            <th>Situação</th>
-            <th>Data limite</th>
-            <th>ações</th>
-        </tr>
-        <?php
-            foreach($usuarioCli as $getUsuario):
-        ?>
-        <tr>
-            <td><?=$getUsuario->getIdCli();?></td>
-            <td><?=$getUsuario->getNomeCli();?></td>
-            <td><?=$getUsuario->getEmpresaCli();?></td>
-            <td><?=$getUsuario->getEmailCli();?></td>
-            <td><?=$getUsuario->getTelefoneCli();?></td>
-            <td><?=$getUsuario->getDataHoraCadastro();?></td>
-            <td><?=$getUsuario->getSituacaoCli();?></td>
-            <td><?=$getUsuario->getDataLimiteAcesso();?></td>
-            <td>
-                <a href="editarCli.php?id=<?=$getUsuario->getIdCli();?>">Editar</a>
-                <a href="apagarCli.php?id=<?=$getUsuario->getIdCli();?>">Apagar</a>
-                <a href="registroUsuarios.php?id=<?=$getUsuario->getIdCli();?>">Atuaizar</a>
-            </td>
-        </tr>
-        <?php
-            endforeach;
-        ?>
-    </table>
-    <form method="POST" action="cadastrarLink_action.php">
-        <label>Adicione o link do iframe</label>
-        <input type="text" name="link_rel" placeholder="Adicione um link" required>
+    <main class="container">
 
-        <br><br>
 
-        <input type="submit" value="Adicionar">
-    </form>
-    <table border="1" width="100%">
-        <tr>
-            <th>Id</th>
-            <th>Link</th>
-            <th>Data d/registro</th>
-            <th>ações</th>
-        </tr>
-        <?php
-            foreach($relatorioUsuario as $getRelatorio):
-        ?>
-        <tr>
-            <td><?=$getRelatorio->getIdRel();?></td>
-            <td><?=$getRelatorio->getLinkRel();?></td>
-            <td><?=$getRelatorio->getDataRel();?></td>
-            <td>
-                <a href="apagarLink.php?id=<?=$getRelatorio->getIdRel();?>">Apagar</a>
-            </td>
-        </tr>
-        <?php
-            endforeach;
-        ?>
-    </table>
+        <!--Formato mobile/desktop-->
+        <div style="max-height: 400px; overflow: auto;margin-top:1em;">
+            <table border="1" width="100%">
+                <tr>
+                    <th>Email</th>
+                    <th>Situação</th>
+                    <th>...</th>
+                </tr>
+
+                <?php
+                    foreach($usuarioCli as $getUsuario):
+                ?>
+                    <tr>
+                        <td><?=$getUsuario->getEmailCli();?></td>
+                        <td><?=$getUsuario->getSituacaoCli();?></td>
+                        <td class="background-tertiary-color">
+                            <a class="color-white" href="verMais_action.php?id=<?=$getUsuario->getIdCli();?>">Ver mais</a>
+                        </td>
+                    </tr> 
+                <?php
+                    endforeach;
+                ?>
+            </table> 
+        </div>  
+
+        
+            
+        <section id="formRegistrarLink">
+            <form class="maxWidth" method="POST" action="cadastrarLink_action.php" >
+                <input class="inputLink inputAlt maxWidth" type="text" name="link_rel" placeholder="Adicione um link para o iframe" required>
+
+                <br><br>
+
+                <input class="inputLink inputAlt maxWidth" type="text" name="name_link_rel" placeholder="Digite o nome do link" required>
+
+                <br><br>
+
+                <input class="border-radius-button submit-padding-top-bottom maxWidth background-primary-color border-none color-white" type="submit" value="Adicionar">
+            </form>
+        </section>
+
+        <!--Formato mobile/desktop-->
+        <div style="max-height: 400px; overflow: auto; margin-bottom: 1em;">
+            <table border="1" width="100%">
+                <tr>
+                    <th>Id</th>
+                    <th>Nome do link</th>
+                    <th>ações</th>
+                </tr>
+
+                <?php
+                    foreach($relatorioUsuario as $getRelatorio):
+                ?>
+                <tr>
+                    <td><?=$getRelatorio->getIdRel();?></td>
+                    <td><?=$getRelatorio->getNameLinkRel();?></td>
+                    <td class="background-tertiary-color">
+                        <a class="color-white" href="apagarLink.php?id=<?=$getRelatorio->getIdRel();?>">Apagar</a>
+                    </td>
+                </tr>
+                <?php
+                    endforeach;
+                ?>
+            </table>
+        </div>
+            
+
+        
+        
+    </main>
+
+    <section class="<?=$_SESSION['vermais']?>">
+
+    </section>
 </body>
 </html>
 

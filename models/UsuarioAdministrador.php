@@ -64,6 +64,8 @@ interface UsuarioAdministradorDAO {
 
     public function verifyRow();
 
+    public function findAll();
+
     public function findById($id_adm);
 
     public function findByEmail($email_adm);
