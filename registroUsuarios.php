@@ -16,6 +16,8 @@ $RelatorioUsuariosDao = new RelatorioUsuariosDaoMysql($pdo);
 $msg = filter_input(INPUT_GET, 'msg');
 $id = filter_input(INPUT_GET, 'id');
 $msgVlt = filter_input(INPUT_GET, 'msgVlt');
+$msgEdit = filter_input(INPUT_GET, 'msgEdit');
+$erroEdit = filter_input(INPUT_GET, 'erro');
 
 $usuarioCli = $UsuarioClienteDao->findAll();
 $relatorioUsuario = $RelatorioUsuariosDao->findAll();
@@ -80,13 +82,46 @@ if(!empty($_SESSION['id'])) {
 
 $verMais = $_SESSION['verMais'];
 
+//EDITAR
 
+if(!empty($erroEdit)) {
+    if(password_verify($_SESSION['erroEdit'], $erroEdit)) {
+        print_r($_SESSION['erroEdit']);
+    }
+}
+
+$_SESSION['msgEdit'] = 'voltarEdit';
+$_SESSION['msgEditCrypt'] = password_hash($_SESSION['msgEdit'], PASSWORD_DEFAULT);
+
+if(!empty($msgEdit)) {
+    if(password_verify($_SESSION['msgEdit'], $msgEdit)) {
+        $_SESSION['editar'] = 'null';
+        $bodyVerMais = 'null';
+    }
+}
+
+if(!empty($_SESSION['editar'])) {
+    if(!($_SESSION['editar'] == 'editarBlock'))  {
+        $_SESSION['editar'] = 'editarNone';
+        $bodyVerMais = 'null';
+        
+    } else {
+        $bodyVerMais = 'bodyVerMais';
+    }
+} else {
+    $_SESSION['editar'] = 'editarNone';
+    $bodyVerMais = 'null';
+}
+
+$editar = $_SESSION['editar'];
 
 if(!empty($msg)) {
     if(password_verify($_SESSION['msgAlt'], $msg)) {
         print_r($_SESSION['msgAlt']);
     }
 }
+
+//Atualizar
 
 if(!empty($id)) {
     if($UsuarioClienteDao->verifyRowById($id)) {
@@ -266,6 +301,35 @@ if(!empty($id)) {
                     </div>
                     
                 </article>
+            </div>
+        </div>
+    </section>
+    <section class="<?=$editar;?>">
+        <div class="container" id="editarForm">
+            <div class="formBase" >
+                <a class="text-hover-white noDecorations border-radius-button background-primary-color border-none color-white buttonVerMais" href="registroUsuarios.php?msgVlt=<?=$_SESSION['msgCrypt'];?>">Voltar <i class="color-white bi bi-backspace-reverse" style="margin-left: 5px;"></i></a>
+                <form method="POST" action="editarCli_action.php">
+                    <label>Nome</label>
+                    <input type="text" name="nome_cli_alt" value="<?=$_SESSION['nome_cli']?>" required>
+                    <br><br>
+                    <label>Empresa</label>
+                    <input type="text" name="empresa_cli_alt" value="<?=$_SESSION['empresa_cli']?>" required>
+                    <br><br>
+                    <label>E-mail</label>
+                    <input type="text" name="email_cli_alt" value="<?=$_SESSION['email_cli']?>" required>
+                    <br><br>
+                    <label>Telefone</label>
+                    <input type="text" name="telefone_cli_alt" value="<?=$_SESSION['telefone_cli']?>" required>
+                    <br><br>
+                    <label>Tempo de acesso</label>
+                    <p style="color:gray">Digite a quantidade de dias de acesso que deseja liberar para esse usuário</p>
+                    <input type="number" name="data_limite_acesso_alt" min="0" max="365" >
+                    <br><br>
+                    <input type="checkbox" name="retirarAcesso">
+                    <label>Desejo tirar o acesso desse usuário ao meu conteúdo</label>
+                    <br><br>
+                    <input type="submit" value="Alterar">
+                </form>
             </div>
         </div>
     </section>
