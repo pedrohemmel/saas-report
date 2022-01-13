@@ -5,9 +5,16 @@ session_start();
 
 $erroCadastroCrypt = filter_input(INPUT_GET, 'erro');
 
+$classeNone = 'displayNone';
+
 if(!empty($erroCadastroCrypt)) {
-        print_r($_SESSION['erroCadastro']);
+    if(password_verify($_SESSION['erroCadastro'], $erroCadastroCrypt)) {
+        $classeNone = 'displayBlkRed';
+        $_SESSION['msg'] = $_SESSION['erroCadastro'];
+    }
 }
+
+$mensagem = $_SESSION['msg'];
 
 ?>
 
@@ -39,11 +46,13 @@ if(!empty($erroCadastroCrypt)) {
     <!--Criando um formulário com action para o cadastrar_action.php que vai confirmar os dados e subir pro banco de dados
 como um registro-->
             <form method="POST" action="cadastrar_action.php">
-                    <input class="inputAlt maxWidth" type="text" name="nome_cli" placeholder="Digite seu nome completo" required>
+                <p class="<?=$classeNone?> text-center"><?=$mensagem?></p>
+
+                <input class="inputAlt maxWidth" type="text" name="nome_cli" placeholder="Digite seu nome completo" required>
                 <br><br>
-                    <input class="inputAlt maxWidth" type="text" name="empresa_cli" placeholder="Digite sua empresa" required>
+                <input class="inputAlt maxWidth" type="text" name="empresa_cli" placeholder="Digite sua empresa" required>
                 <br><br>
-                    <input class="inputAlt maxWidth" type="tel" name="telefone_cli" placeholder="Digite seu telefone" required>
+                <input class="inputAlt maxWidth" type="tel" name="telefone_cli" placeholder="Digite seu telefone" minlength="11" maxlength="11" required>
                 <br><br>
                 <div class="row">
                     <div class="col-12 col-md-6">

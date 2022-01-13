@@ -14,6 +14,8 @@ $UsuarioClienteDao = new UsuarioClienteDaoMysql($pdo);
 
 $id_cli = filter_input(INPUT_GET, 'id');
 
+$_SESSION['verMais'] = 'verMaisNone';
+
 $UsuarioClienteDao->delete($id_cli);
 
 header('Location:registroUsuarios.php');

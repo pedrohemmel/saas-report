@@ -70,7 +70,6 @@ if($nome_cli && $empresa_cli && $email_cli && $telefone_cli) {
         $UsuarioClienteDao->update($usuarioAlt);
 
         //Atualizar status
-
         $usuarioCliAlt = $UsuarioClienteDao->findById($_SESSION['id_cli']);  
 
         foreach($usuarioCliAlt as $getNewUsuario) {

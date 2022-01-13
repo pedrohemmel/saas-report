@@ -35,40 +35,59 @@ if($UsuarioClienteDao->verifyRowByEmail($email_usu)) {
         $email = $getUsuario->getEmailCli();
         $senha = $getUsuario->getSenhaCli();
         $dataLimite = $getUsuario->getDataLimiteAcesso();
+        $verificacao_cli = $getUsuario->getVerificacaoCli();
     }
 
-    /*DECLARO UM HORARIO ATUAL PARA COMPARAR COM HORARIO LIMITE E ALTERAR PARA ACESSO PERMITIDO OU NÃO*/
-    $dataAtual = date('Y/m/d H:i:s');
+    if($verificacao_cli == 'sim') {
+        /*DECLARO UM HORARIO ATUAL PARA COMPARAR COM HORARIO LIMITE E ALTERAR PARA ACESSO PERMITIDO OU NÃO*/
+        $dataAtual = date('Y/m/d H:i:s');
 
-    /*SE O USUARIO NAO ESTIVER DENTRO DO TEMPO DE ACESSO, OCORRE UM UPDATE PARA DEIXAR A situacao_cli INATIVA*/
-    if(strtotime($dataAtual) >= strtotime($dataLimite)) {
+        /*SE O USUARIO NAO ESTIVER DENTRO DO TEMPO DE ACESSO, OCORRE UM UPDATE PARA DEIXAR A situacao_cli INATIVA*/
+        if(strtotime($dataAtual) >= strtotime($dataLimite)) {
 
-        $acesso = 'inativo';
-        $usuarioAlt = new UsuarioCliente;
-        $usuarioAlt->setIdCli($id);
-        $usuarioAlt->setSituacaoCli($acesso);
-    
-        $UsuarioClienteDao->updateSituacao($usuarioAlt);
+            $acesso = 'inativo';
+            $usuarioAlt = new UsuarioCliente;
+            $usuarioAlt->setIdCli($id);
+            $usuarioAlt->setSituacaoCli($acesso);
+        
+            $UsuarioClienteDao->updateSituacao($usuarioAlt);
 
-    } else if(strtotime($dataLimite) >= strtotime($dataAtual)) {
-        $acesso = 'ativo';
-        $usuarioAlt = new UsuarioCliente;
-        $usuarioAlt->setIdCli($id);
-        $usuarioAlt->setSituacaoCli($acesso);
-    
-        $UsuarioClienteDao->updateSituacao($usuarioAlt);
-    }
+        } else if(strtotime($dataLimite) >= strtotime($dataAtual)) {
+            $acesso = 'ativo';
+            $usuarioAlt = new UsuarioCliente;
+            $usuarioAlt->setIdCli($id);
+            $usuarioAlt->setSituacaoCli($acesso);
+        
+            $UsuarioClienteDao->updateSituacao($usuarioAlt);
+        }
 
-    if($email_usu == $email && password_verify($senha_usu, $senha)) {  
-        $_SESSION['email'] = $email;
-        $_SESSION['senha'] = $senha;
-        $_SESSION['nome'] = $nome;
-        $_SESSION['dataLimite'] = $dataLimite;
-        $_SESSION['logged'] = true;
-        header('Location:login_action.php');
+        if($email_usu == $email && password_verify($senha_usu, $senha)) {  
+            $_SESSION['email'] = $email;
+            $_SESSION['senha'] = $senha;
+            $_SESSION['nome'] = $nome;
+            $_SESSION['dataLimite'] = $dataLimite;
+            $_SESSION['logged'] = true;
+            header('Location:login_action.php');
+            exit;
+        } else {
+            header('Location:login.php?erro='.$erroLoginCrypt);
+            exit;
+        }
+    } else if ($verificacao_cli == 'nao') {
+
+        $_SESSION['chave'] = password_hash($id, PASSWORD_DEFAULT);
+
+        $chaveVerificacao = new UsuarioCliente;
+        $chaveVerificacao->setIdCli($id);
+        $chaveVerificacao->setRecuperaSenhaCli($_SESSION['chave']);
+
+        //Utilizei essa função porque o código de identificação será o mesmo
+        $UsuarioClienteDao->updateRecuperarSenha($chaveVerificacao);
+
+        header('Location:verificarEmail.php');
         exit;
     } else {
-        header('Location:login.php?erro='.$erroLoginCrypt);
+        header('Location:index.php');
         exit;
     }
 

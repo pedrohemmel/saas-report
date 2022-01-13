@@ -1,0 +1,41 @@
+
+.msgEmailNon {
+    display: none;
+}
+
+.text-hover-white:hover {
+    color: #fff;
+}
+
+.topBar .container {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+    align-items: center;
+}
+
+.msgErroAcessoNegado {
+    background-color: #fff;
+
+    padding: 2em 10px;
+
+    margin-top: 1em;
+
+    text-align: center;
+}
+
+#formVerificarEmail {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+}
+
+@media screen and (min-width: 768px) {
+    .msgErroAcessoNegado {
+        width: 50%;
+
+        margin-top: 6em;
+    }
+}

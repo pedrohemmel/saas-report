@@ -33,7 +33,7 @@ if($nome_adm && $telefone_adm && $email_adm_ctt && $email_adm && $confirm_email_
 
         $UsuarioAdministradorDao->add($novoAdministrador);
 
-        header('Location:index.php');
+        header('Location:login.php?msgCad');
         exit;   
     } else {
         header('Location:cadastrarAdm.php');

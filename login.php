@@ -1,24 +1,50 @@
 <?php
 session_start();
 
-$_SESSION['erro'] = '<p style="color:#f00">Usuário ou senha incorretos</p>';
+$_SESSION['erro'] = "Usuário ou senha incorretos";
 $erroLogin = 'E-mail ou Senha incorreto';
 $msgLog = 'end';
 $erro = filter_input(INPUT_GET, 'erro');
 $msg = filter_input(INPUT_GET, 'msg');
 $chaveRe = filter_input(INPUT_GET, 'chaveRe');
+$msgCad = filter_input(INPUT_GET, 'msgCad');
+$chaveVeri = filter_input(INPUT_GET, 'chaveVeri');
+$msgVeri = filter_input(INPUT_GET, 'msgVeri');
+
+$classeNone = 'displayNone';
 
 if(!empty($erro)) {
     if(password_verify($erroLogin, $erro)) {
-        print_r($_SESSION['erro']);
+        $classeNone = 'displayBlkRed';
+        $_SESSION['msg'] = $_SESSION['erro'];
     }
 } else if(!empty($msg)) {
     if(password_verify($msgLog, $msg)) {
         $_SESSION['logged'] = false;
     }
 } else if(!empty($chaveRe)) {
-    print_r($_SESSION['chaveRe']);
+    if(password_verify($_SESSION['chaveRe'], $chaveRe)) {
+        $classeNone = 'displayBlkGreen';
+        $_SESSION['msg'] = $_SESSION['chaveRe'];
+    } 
+} else if(!empty($msgCad)) {
+    if(password_verify($_SESSION['msgCad'], $msgCad)) {
+        $classeNone = 'displayBlkGreen';
+        $_SESSION['msg'] = $_SESSION['msgCad'];
+    } 
+} else if(!empty($chaveVeri)) {
+    if(password_verify($_SESSION['chaveVeri'], $chaveVeri)) {
+        $classeNone = 'displayBlkRed';
+        $_SESSION['msg'] = $_SESSION['chaveVeri'];
+    } 
+} else if(!empty($msgVeri)) {
+    if(password_verify($_SESSION['msgVeri'], $msgVeri)) {
+        $classeNone = 'displayBlkGreen';
+        $_SESSION['msg'] = $_SESSION['msgVeri'];
+    } 
 }
+
+$mensagem = $_SESSION['msg'];
 
 ?>
 
@@ -57,6 +83,8 @@ if(!empty($erro)) {
             <div class="col-12 col-md-6">
                 <section class="border-radius-button formBase" id="formLogin">
                     <form method="POST" action="verificaUsuario.php"> <!--ENVIA OS DADOS PARA VERIFICAR SE ESSE USUARIO EXISTE E SE ELE TEM ACESSO AO RELATORIO-->
+                        <p class="<?=$classeNone?> text-center"><?=$mensagem?></p>
+
                         <input class="inputAlt maxWidth" type="text" name="email_usu" placeholder="Digite o email" required>
 
                         <br><br>

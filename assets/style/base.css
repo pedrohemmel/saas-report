@@ -6,10 +6,31 @@
     --black-color: #000;
 }
 
+
+
 /*TAGS PRONTAS*/
 
 hr {
     background-color:#c5c5c5; 
+}
+
+input:focus {
+    outline:none;
+    
+}
+
+
+/*Utilizei para tirar o fundo azul automatico do input*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px #fff inset !important;
+}
+
+body {
+    background-color:var(--background-color);
+    font-family: 'Marcellus SC', serif;
 }
 
 /*TAGS PRONTAS*/
@@ -31,6 +52,7 @@ hr {
 .color-white {
     color: #fff;
 }
+
 
 .background-primary-color {
     background-color: var(--primary-color);
@@ -77,6 +99,12 @@ hr {
     padding-bottom: 15px;
 }
 
+.submit-padding-top-bottom-sm {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+
 .submit-padding-exit {
     padding: 5px 15px;
 }
@@ -103,29 +131,19 @@ hr {
     margin-left: 5px;
 }
 
-input:focus {
-    outline:none;
-    
+.displayNone {
+    display: none;
 }
 
-
-/*Utilizei para tirar o fundo azul automatico do input*/
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active  {
-    -webkit-box-shadow: 0 0 0 30px #fff inset !important;
+.displayBlkGreen {
+    color: #0a0;
 }
 
-
-
+.displayBlkRed {
+    color: #f00;
+}
 /*CLASSES PRONTAS*/
 
-
-body {
-    background-color:var(--background-color);
-    font-family: 'Marcellus SC', serif;
-}
 
 
 

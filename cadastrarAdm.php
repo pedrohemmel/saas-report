@@ -41,7 +41,7 @@ if(!$_SESSION['admCadastro']) {
 
                 <br><br>
 
-                <input class="inputAlt maxWidth" type="tel" name="telefone_adm" placeholder="Digite seu telefone" required>
+                <input class="inputAlt maxWidth" type="tel" name="telefone_adm" placeholder="Digite seu telefone" minlength="11" maxlength="11" required>
 
                 <br><br>
 

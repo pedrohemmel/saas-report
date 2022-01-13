@@ -19,7 +19,8 @@ if($nova_senha) {
         $nova_senha_cli = password_hash($nova_senha, PASSWORD_DEFAULT);
 
         $usuario = $UsuarioClienteDao->findByKeyPass($_SESSION['chave']);
-        $_SESSION['chaveRe'] = "<p style='color:green'>Senha atualizada com sucesso!</p>";
+        $_SESSION['chaveRe'] = "Senha atualizada com sucesso!";
+        $chaveRe = password_hash($_SESSION['chaveRe'], PASSWORD_DEFAULT);
 
         foreach($usuario as $getUsuario) {
             $id_cli = $getUsuario->getIdCli();
@@ -31,12 +32,22 @@ if($nova_senha) {
         $usuarioAlt->setSenhaCli($nova_senha_cli);
         $UsuarioClienteDao->updateNovaSenha($usuarioAlt);
 
-        header('Location:login.php?chaveRe='.$_SESSION['chaveRe']);
+        $novaChave = password_hash("recuperado", PASSWORD_DEFAULT);
+
+        $chaveVerificacao = new UsuarioCliente;
+        $chaveVerificacao->setIdCli($id_cli);
+        $chaveVerificacao->setRecuperaSenhaCli($novaChave);
+
+        //Utilizei essa função porque o código de identificação será o mesmo
+        $UsuarioClienteDao->updateRecuperarSenha($chaveVerificacao);
+
+        header('Location:login.php?chaveRe='.$chaveRe);
         exit;
     } else {
-        $_SESSION['chaveRe'] = "<p style='color:green'>Senha atualizada com sucesso!</p>";
+        $_SESSION['chaveRe'] = "Senha atualizada com sucesso!";
+        $chaveRe = password_hash($_SESSION['chaveRe'], PASSWORD_DEFAULT);
 
-        header('Location:login.php?chaveRe='.$_SESSION['chaveRe']);
+        header('Location:login.php?chaveRe='.$chaveRe);
         exit;
     }
 } else {

@@ -14,6 +14,10 @@ $erroAtualizaSenhaCrypt = filter_input(INPUT_GET, 'erro');
 
 $erroAtualizaSenha = 'Erro ao acessar página, solicite um novo link';
 
+$_SESSION['msg'] = '';
+
+$classeNone = 'displayNone';
+
 if(!empty($email_usu)) {
     
     $UsuarioClienteDao = new UsuarioClienteDaoMysql($pdo);
@@ -91,25 +95,34 @@ if(!empty($email_usu)) {
 
             $mail->send();
 
-            $_SESSION['msgMail'] = "<p style='color:green'> Enviado e-mail com instruções para recuperar a senha.
-            Acesse a sua caixa de e-mail para recuperar a senha!</p>";
+            $classeNone = 'displayBlkGreen';
+            $_SESSION['msg'] = "Foi enviado e-mail com instruções para recuperar a senha.
+            Acesse a sua caixa de e-mail para recuperar a senha!";
 
-            print_r($_SESSION['msgMail']);
+            
 
         } catch (Exception $e) {
-            echo "Erro: E-mail não enviado. Mailer Error: {$mail->ErrorInfo}";
+            $classeNone = 'displayBlkRed';
+            $_SESSION['msg'] = "Erro: E-mail não enviado. Mailer Error: {$mail->ErrorInfo}";
         }
 
     } else {
-        echo '<p style="color:#f00">E-mail não existente no sistema</p>';
+        $classeNone = 'displayBlkRed';
+        $_SESSION['msg'] = 'E-mail não existente no sistema';
     }
 
     
 }
-
-if(password_verify($erroAtualizaSenha, $erroAtualizaSenhaCrypt)) {
-    echo '<p style="color:#f00">Erro ao acessar página, solicite um novo link</p>';
+if(!empty($erroAtualizaSenhaCrypt)) {
+    if(password_verify($erroAtualizaSenha, $erroAtualizaSenhaCrypt)) {
+        $classeNone = 'displayBlkRed';
+        $_SESSION['msg'] = 'Erro ao acessar página, solicite um novo link';
+    }
 }
+
+$mensagem = $_SESSION['msg'];
+
+
 
 ?>
 
@@ -147,8 +160,10 @@ if(password_verify($erroAtualizaSenha, $erroAtualizaSenhaCrypt)) {
             </div>
             <div class="col-12 col-md-6">
                 <section class="border-radius-button formBase" id="formRecuperarSenha">
-                    <form method="POST" action=""> <!--ENVIA OS DADOS PARA VERIFICAR SE ESSE USUARIO EXISTE E SE ELE TEM ACESSO AO RELATORIO-->
-                        <input class="inputAlt maxWidth" type="text" name="email_usu" placeholder="Digite o email" required>
+                    <form method="POST" action="recuperarSenha.php"> <!--ENVIA OS DADOS PARA VERIFICAR SE ESSE USUARIO EXISTE E SE ELE TEM ACESSO AO RELATORIO-->
+                        <p class="<?=$classeNone?> text-center"><?=$mensagem?></p>
+
+                        <input class="inputAlt maxWidth" type="text" name="email_usu" placeholder="Digite o email para recuperação de senha" required>
 
                         <br><br>
 

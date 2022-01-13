@@ -15,11 +15,10 @@ $RelatorioUsuariosDao = new RelatorioUsuariosDaoMysql($pdo);
 
 $msg = filter_input(INPUT_GET, 'msg');
 $id = filter_input(INPUT_GET, 'id');
+$msgVlt = filter_input(INPUT_GET, 'msgVlt');
 
 $usuarioCli = $UsuarioClienteDao->findAll();
 $relatorioUsuario = $RelatorioUsuariosDao->findAll();
-
-
 
 if(!$_SESSION['logged']) {
     header('Location:index.php');
@@ -27,13 +26,60 @@ if(!$_SESSION['logged']) {
 } 
 
 //VER MAIS
+
+$_SESSION['msgVlt'] = 'voltarVerMais';
+$_SESSION['msgCrypt'] = password_hash($_SESSION['msgVlt'], PASSWORD_DEFAULT);
+
+
+if(!empty($msgVlt)) {
+    if(password_verify($_SESSION['msgVlt'], $msgVlt)) {
+        $_SESSION['verMais'] = 'null';
+        $bodyVerMais = 'null';
+    }
+}
+
 if(!empty($_SESSION['verMais'])) {
     if(!($_SESSION['verMais'] == 'verMaisBlock'))  {
-        $_SESSION['verMais'] == 'verMaisNone';
+        $_SESSION['verMais'] = 'verMaisNone';
+        $bodyVerMais = 'null';
+        
+    } else {
+        $bodyVerMais = 'bodyVerMais';
     }
 } else {
-    $_SESSION['verMais'] == 'verMaisNone';
+    $_SESSION['verMais'] = 'verMaisNone';
+    $bodyVerMais = 'null';
 }
+
+if(!empty($_SESSION['id'])) {
+    if($UsuarioClienteDao->verifyRowById($_SESSION['id'])) {
+        $usuarioCliId = $UsuarioClienteDao->findById($_SESSION['id']);
+        foreach($usuarioCliId as $getUsuario) {
+            $id_cli = $getUsuario->getIdCli();
+            $nome_cli = $getUsuario->getNomeCli();
+            $empresa_cli = $getUsuario->getEmpresaCli();
+            $email_cli = $getUsuario->getEmailCli();
+            $telefone_cli = $getUsuario->getTelefoneCli();
+            $dataHoraCadastro = $getUsuario->getDataHoraCadastro();
+            $situacao_cli = $getUsuario->getSituacaoCli();
+            $verificacao_cli = $getUsuario->getVerificacaoCli();
+            $dataLimiteAcesso = $getUsuario->getDataLimiteAcesso();
+        }
+    }
+} else {
+    $id_cli = 'null';
+    $nome_cli = 'null';
+    $empresa_cli = 'null';
+    $email_cli = 'null';
+    $telefone_cli ='null';
+    $dataHoraCadastro = 'null';
+    $situacao_cli = 'null';
+    $verificacao_cli = 'null';
+    $dataLimiteAcesso = 'null';
+}
+
+$verMais = $_SESSION['verMais'];
+
 
 
 if(!empty($msg)) {
@@ -98,7 +144,7 @@ if(!empty($id)) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Marcellus+SC&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="<?=$bodyVerMais?>">
     <header class="topBar background-primary-color">
         <div class="container">
             <img width="50px" src="assets/img/logoSaas.svg">
@@ -126,7 +172,7 @@ if(!empty($id)) {
                         <td><?=$getUsuario->getEmailCli();?></td>
                         <td><?=$getUsuario->getSituacaoCli();?></td>
                         <td class="background-tertiary-color">
-                            <a class="color-white" href="verMais_action.php?id=<?=$getUsuario->getIdCli();?>">Ver mais</a>
+                            <a class="text-hover-white color-white" href="verMais_action.php?id=<?=$getUsuario->getIdCli();?>">Ver mais</a>
                         </td>
                     </tr> 
                 <?php
@@ -139,6 +185,11 @@ if(!empty($id)) {
             
         <section id="formRegistrarLink">
             <form class="maxWidth" method="POST" action="cadastrarLink_action.php" >
+
+                <h6>Adicione um link para o usuário visualizar <i class="bi bi-eye" style="margin-left: 5px;"></i></h5>
+                
+                <br>
+
                 <input class="inputLink inputAlt maxWidth" type="text" name="link_rel" placeholder="Adicione um link para o iframe" required>
 
                 <br><br>
@@ -167,7 +218,7 @@ if(!empty($id)) {
                     <td><?=$getRelatorio->getIdRel();?></td>
                     <td><?=$getRelatorio->getNameLinkRel();?></td>
                     <td class="background-tertiary-color">
-                        <a class="color-white" href="apagarLink.php?id=<?=$getRelatorio->getIdRel();?>">Apagar</a>
+                        <a class="text-hover-white color-white" href="apagarLink.php?id=<?=$getRelatorio->getIdRel();?>">Apagar</a>
                     </td>
                 </tr>
                 <?php
@@ -181,8 +232,42 @@ if(!empty($id)) {
         
     </main>
 
-    <section class="<?=$_SESSION['vermais']?>">
-
+    <section class="<?=$verMais;?>">
+        <div class="container" id="verMaisForm">
+            <div class="formBase" >
+                <a class="text-hover-white noDecorations border-radius-button background-primary-color border-none color-white buttonVerMais" href="registroUsuarios.php?msgVlt=<?=$_SESSION['msgCrypt'];?>">Voltar <i class="color-white bi bi-backspace-reverse" style="margin-left: 5px;"></i></a>
+                <br>
+                <article class="row">
+                    <p class="col-12 col-md-6">Id</p>
+                    <p class="col-12 col-md-6"><?=$id_cli;?></p>
+                    <p class="col-12 col-md-6">Nome</p>
+                    <p class="col-12 col-md-6"><?=$nome_cli;?></p>
+                    <p class="col-12 col-md-6">Empresa</p>
+                    <p class="col-12 col-md-6"><?=$empresa_cli;?></p>
+                    <p class="col-12 col-md-6">Data d/Registro</p>
+                    <p class="col-12 col-md-6"><?=$dataHoraCadastro;?></p>
+                    <p class="col-12 col-md-6">Data limite de acesso</p>
+                    <p class="col-12 col-md-6"><?=$dataLimiteAcesso;?></p>
+                    <br><br><br><br>
+                    <p class="col-12 col-md-6">Situação</p>
+                    <p class="col-12 col-md-6"><?=$situacao_cli;?></p>
+                    <p class="col-12 col-md-6">E-mail verificado</p>
+                    <p class="col-12 col-md-6"><?=$verificacao_cli;?></p>
+                    <br><br><br><br>
+                    <p class="col-12 col-md-6">E-mail</p>
+                    <p class="col-12 col-md-6"><?=$email_cli;?></p>
+                    <p class="col-12 col-md-6">Telefone</p>
+                    <p class="col-12 col-md-6"><?=$telefone_cli?></p>
+                    <br><br><br><br>
+                    <div class="col-12 row" id="editUpDel">
+                        <a class="text-hover-white col-12 col-md-4 noDecorations border-radius-button background-primary-color border-none color-white buttonVerMais" href="editarCli.php?id=<?=$id_cli;?>">Editar <i class="color-white bi bi-pencil" style="margin-left: 5px;"></i></a>
+                        <a class="text-hover-white col-12 col-md-4 noDecorations border-radius-button background-primary-color border-none color-white buttonVerMais" href="registroUsuarios.php?id=<?=$id_cli;?>">Atualizar <i class="color-white bi bi-arrow-counterclockwise" style="margin-left: 5px;"></i></a>
+                        <a class="text-hover-white col-12 col-md-4 noDecorations border-radius-button background-primary-color border-none color-white buttonVerMais" href="apagarCli.php?id=<?=$id_cli;?>">Apagar <i class="color-white bi bi-trash" style="margin-left: 5px;"></i></a>
+                    </div>
+                    
+                </article>
+            </div>
+        </div>
     </section>
 </body>
 </html>

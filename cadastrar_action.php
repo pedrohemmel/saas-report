@@ -17,7 +17,8 @@ $confirm_email_cli = filter_input(INPUT_POST, 'confirm_email_cli', FILTER_VALIDA
 $senha_cli = filter_input(INPUT_POST, 'senha_cli');
 $confirm_senha_cli = filter_input(INPUT_POST, 'confirm_senha_cli');
 $data_hora_cadastro = date('Y/m/d H:i:s');
-$situacao_cli = 'ativo';
+$situacao_cli = 'inativo';
+$verificacao_cli = 'nao';
 $data_limite_acesso = date('Y/m/d H:i:s', strtotime('+7 days')); //ADICIONEI MAIS 7 DIAS QUE SERIA O TEMPO GRATUITO DO USUARIO
 
 
@@ -25,10 +26,10 @@ $data_limite_acesso = date('Y/m/d H:i:s', strtotime('+7 days')); //ADICIONEI MAI
 /*SE A SENHA E O EMAIL FOR IGUAL A CONFIRMAÇÃO DOS MESMOS, É CRIADO A CONTA E REDIRECIONADO PARA TELA DE LOGIN*/
 if($nome_cli && $empresa_cli && $telefone_cli && $email_cli && $confirm_email_cli && $senha_cli && $confirm_senha_cli && $data_hora_cadastro && $situacao_cli && $data_limite_acesso) {
     if($email_cli === $confirm_email_cli && $senha_cli === $confirm_senha_cli) {
-        if($UsuarioClienteDao->verifyRowByEmail($email_cli)) {
+        if($UsuarioClienteDao->verifyRowByEmail($email_cli) or $UsuarioClienteDao->verifyRowByPhone($telefone_cli)) {
 
             //variaveis de erro caso cadastro não esteja correto
-            $_SESSION['erroCadastro'] = '<p style="color:#f00">Alguem já está utilizando esse email.</p>';
+            $_SESSION['erroCadastro'] = 'Alguem já está utilizando esses dados.';
             $erroCadastroCrypt = password_hash($_SESSION['erroCadastro'], PASSWORD_DEFAULT);
 
             header('Location:cadastrar.php?erro='.$erroCadastroCrypt);
@@ -46,24 +47,28 @@ if($nome_cli && $empresa_cli && $telefone_cli && $email_cli && $confirm_email_cl
             $novoCliente->setSenhaCli($senhaCrypt);
             $novoCliente->setDataHoraCadastro($data_hora_cadastro);
             $novoCliente->setSituacaoCli($situacao_cli);
+            $novoCliente->setVerificacaoCli($verificacao_cli);
             $novoCliente->setDataLimiteAcesso($data_limite_acesso);
 
             $UsuarioClienteDao->add($novoCliente);
 
-            header('Location:index.php');
+            $_SESSION['msgCad'] = 'Usuário cadastrado com sucesso!';
+            $msgCad = password_hash($_SESSION['msgCad'], PASSWORD_DEFAULT);
+
+            header('Location:login.php?msgCad='.$msgCad);
             exit;  
         }
     } else {
         //variaveis de erro caso cadastro não esteja correto
-        $_SESSION['erroCadastro'] = '<p style="color:#f00">Dados foram inseridos incorretamente.</p>';
-        $erroCadastroCrypt = password_hash($erroCadastro, PASSWORD_DEFAULT);
+        $_SESSION['erroCadastro'] = 'Dados foram inseridos incorretamente.';
+        $erroCadastroCrypt = password_hash($_SESSION['erroCadastro'], PASSWORD_DEFAULT);
 
         header('Location:cadastrar.php?erro='.$erroCadastroCrypt);
         exit;
     }
 } else {
-    $_SESSION['erroCadastro'] = '<p style="color:#f00">Dados foram inseridos incorretamente.</p>';
-    $erroCadastroCrypt = password_hash($erroCadastro, PASSWORD_DEFAULT);
+    $_SESSION['erroCadastro'] = 'Dados foram inseridos incorretamente.';
+    $erroCadastroCrypt = password_hash($_SESSION['erroCadastro'], PASSWORD_DEFAULT);
 
     header('Location:cadastrar.php?erro='.$erroCadastroCrypt);
     exit;
