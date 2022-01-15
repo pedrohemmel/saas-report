@@ -30,6 +30,12 @@ if($UsuarioClienteDao->verifyRowById($_SESSION['id_cli'])) {
     }
 
 }
+
+$_SESSION['editar'] = 'editarBlock';
+$_SESSION['verMais'] = 'verMaisNone';
+
+header('Location:registroUsuarios.php');
+exit;
 ?>
 
 

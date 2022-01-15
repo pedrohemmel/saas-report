@@ -16,22 +16,21 @@ $RelatorioUsuariosDao = new RelatorioUsuariosDaoMysql($pdo);
 $msg = filter_input(INPUT_GET, 'msg');
 $id = filter_input(INPUT_GET, 'id');
 $msgVlt = filter_input(INPUT_GET, 'msgVlt');
+$msgEditVlt = filter_input(INPUT_GET, 'msgEditVlt');
 $msgEdit = filter_input(INPUT_GET, 'msgEdit');
-$erroEdit = filter_input(INPUT_GET, 'erro');
+$msgErroEdit = filter_input(INPUT_GET, 'msgErroEdit');
 
 $usuarioCli = $UsuarioClienteDao->findAll();
 $relatorioUsuario = $RelatorioUsuariosDao->findAll();
+
+//condições de requisições GET
+
+$classeNone = 'displayNone';
 
 if(!$_SESSION['logged']) {
     header('Location:index.php');
     exit;
 } 
-
-//VER MAIS
-
-$_SESSION['msgVlt'] = 'voltarVerMais';
-$_SESSION['msgCrypt'] = password_hash($_SESSION['msgVlt'], PASSWORD_DEFAULT);
-
 
 if(!empty($msgVlt)) {
     if(password_verify($_SESSION['msgVlt'], $msgVlt)) {
@@ -39,6 +38,37 @@ if(!empty($msgVlt)) {
         $bodyVerMais = 'null';
     }
 }
+
+if(!empty($msgErroEdit)) {
+    if(password_verify($_SESSION['erroEdit'], $msgErroEdit)) {
+        $classeNone = 'displayBlkRed';
+        $_SESSION['msg'] = $_SESSION['erroEdit'];
+    }
+} else if(!empty($msgEditVlt)) {
+    if(password_verify($_SESSION['msgEdit'], $msgEditVlt)) {
+        $_SESSION['verMais'] = 'verMaisBlock';
+        $_SESSION['editar'] = 'null';
+        $bodyVerMais = 'null';
+    }
+} else if(!empty($msgEdit)) {
+    if(password_verify($_SESSION['msgEdit'], $msgEdit)) {
+        $classeNone = 'displayBlkGreen';
+        $_SESSION['msg'] = $_SESSION['msgEdit'];
+        $_SESSION['editar'] = 'null';
+        $_SESSION['verMais'] = 'verMaisBlock';
+    }
+}
+
+$mensagem = $_SESSION['msg'];
+
+
+//VER MAIS
+
+$_SESSION['msgVlt'] = 'voltarVerMais';
+$_SESSION['msgCrypt'] = password_hash($_SESSION['msgVlt'], PASSWORD_DEFAULT);
+
+
+
 
 if(!empty($_SESSION['verMais'])) {
     if(!($_SESSION['verMais'] == 'verMaisBlock'))  {
@@ -84,42 +114,25 @@ $verMais = $_SESSION['verMais'];
 
 //EDITAR
 
-if(!empty($erroEdit)) {
-    if(password_verify($_SESSION['erroEdit'], $erroEdit)) {
-        print_r($_SESSION['erroEdit']);
-    }
-}
 
 $_SESSION['msgEdit'] = 'voltarEdit';
 $_SESSION['msgEditCrypt'] = password_hash($_SESSION['msgEdit'], PASSWORD_DEFAULT);
 
-if(!empty($msgEdit)) {
-    if(password_verify($_SESSION['msgEdit'], $msgEdit)) {
-        $_SESSION['editar'] = 'null';
-        $bodyVerMais = 'null';
-    }
-}
-
 if(!empty($_SESSION['editar'])) {
     if(!($_SESSION['editar'] == 'editarBlock'))  {
         $_SESSION['editar'] = 'editarNone';
-        $bodyVerMais = 'null';
+        
         
     } else {
         $bodyVerMais = 'bodyVerMais';
     }
 } else {
     $_SESSION['editar'] = 'editarNone';
-    $bodyVerMais = 'null';
+    
 }
 
 $editar = $_SESSION['editar'];
 
-if(!empty($msg)) {
-    if(password_verify($_SESSION['msgAlt'], $msg)) {
-        print_r($_SESSION['msgAlt']);
-    }
-}
 
 //Atualizar
 
@@ -159,6 +172,8 @@ if(!empty($id)) {
         }
     }
 }
+
+
 
 ?>
 <!DOCTYPE html>
@@ -271,28 +286,30 @@ if(!empty($id)) {
         <div class="container" id="verMaisForm">
             <div class="formBase" >
                 <a class="text-hover-white noDecorations border-radius-button background-primary-color border-none color-white buttonVerMais" href="registroUsuarios.php?msgVlt=<?=$_SESSION['msgCrypt'];?>">Voltar <i class="color-white bi bi-backspace-reverse" style="margin-left: 5px;"></i></a>
+                <br class="<?=$classeNone?>">
+                <p class="<?=$classeNone?> text-editVermais"><?=$mensagem?></p>
                 <br>
                 <article class="row">
-                    <p class="col-12 col-md-6">Id</p>
-                    <p class="col-12 col-md-6"><?=$id_cli;?></p>
-                    <p class="col-12 col-md-6">Nome</p>
-                    <p class="col-12 col-md-6"><?=$nome_cli;?></p>
-                    <p class="col-12 col-md-6">Empresa</p>
-                    <p class="col-12 col-md-6"><?=$empresa_cli;?></p>
-                    <p class="col-12 col-md-6">Data d/Registro</p>
-                    <p class="col-12 col-md-6"><?=$dataHoraCadastro;?></p>
-                    <p class="col-12 col-md-6">Data limite de acesso</p>
-                    <p class="col-12 col-md-6"><?=$dataLimiteAcesso;?></p>
+                    <p class="col-12 col-md-6 labelVerMais">Id</p>
+                    <p class="col-12 col-md-6 marginVerMais"><?=$id_cli;?></p>
+                    <p class="col-12 col-md-6 labelVerMais">Nome</p>
+                    <p class="col-12 col-md-6 marginVerMais"><?=$nome_cli;?></p>
+                    <p class="col-12 col-md-6 labelVerMais">Empresa</p>
+                    <p class="col-12 col-md-6 marginVerMais"><?=$empresa_cli;?></p>
+                    <p class="col-12 col-md-6 labelVerMais">Data d/Registro</p>
+                    <p class="col-12 col-md-6 marginVerMais"><?=$dataHoraCadastro;?></p>
+                    <p class="col-12 col-md-6 labelVerMais">Data limite de acesso</p>
+                    <p class="col-12 col-md-6 marginVerMais"><?=$dataLimiteAcesso;?></p>
                     <br><br><br><br>
-                    <p class="col-12 col-md-6">Situação</p>
-                    <p class="col-12 col-md-6"><?=$situacao_cli;?></p>
-                    <p class="col-12 col-md-6">E-mail verificado</p>
-                    <p class="col-12 col-md-6"><?=$verificacao_cli;?></p>
+                    <p class="col-12 col-md-6 labelVerMais">Situação</p>
+                    <p class="col-12 col-md-6 marginVerMais"><?=$situacao_cli;?></p>
+                    <p class="col-12 col-md-6 labelVerMais">E-mail verificado</p>
+                    <p class="col-12 col-md-6 marginVerMais"><?=$verificacao_cli;?></p>
                     <br><br><br><br>
-                    <p class="col-12 col-md-6">E-mail</p>
-                    <p class="col-12 col-md-6"><?=$email_cli;?></p>
-                    <p class="col-12 col-md-6">Telefone</p>
-                    <p class="col-12 col-md-6"><?=$telefone_cli?></p>
+                    <p class="col-12 col-md-6 labelVerMais">E-mail</p>
+                    <p class="col-12 col-md-6 marginVerMais"><?=$email_cli;?></p>
+                    <p class="col-12 col-md-6 labelVerMais">Telefone</p>
+                    <p class="col-12 col-md-6 marginVerMais"><?=$telefone_cli?></p>
                     <br><br><br><br>
                     <div class="col-12 row" id="editUpDel">
                         <a class="text-hover-white col-12 col-md-4 noDecorations border-radius-button background-primary-color border-none color-white buttonVerMais" href="editarCli.php?id=<?=$id_cli;?>">Editar <i class="color-white bi bi-pencil" style="margin-left: 5px;"></i></a>
@@ -307,19 +324,22 @@ if(!empty($id)) {
     <section class="<?=$editar;?>">
         <div class="container" id="editarForm">
             <div class="formBase" >
-                <a class="text-hover-white noDecorations border-radius-button background-primary-color border-none color-white buttonVerMais" href="registroUsuarios.php?msgVlt=<?=$_SESSION['msgCrypt'];?>">Voltar <i class="color-white bi bi-backspace-reverse" style="margin-left: 5px;"></i></a>
+                <a class="text-hover-white noDecorations border-radius-button background-primary-color border-none color-white buttonVerMais" href="registroUsuarios.php?msgEditVlt=<?=$_SESSION['msgEditCrypt'];?>">Voltar <i class="color-white bi bi-backspace-reverse" style="margin-left: 5px;"></i></a>
+                <br class="<?=$classeNone?>">
+                <p class="<?=$classeNone?> text-editVermais"><?=$mensagem?></p>
+                <br>
                 <form method="POST" action="editarCli_action.php">
                     <label>Nome</label>
-                    <input type="text" name="nome_cli_alt" value="<?=$_SESSION['nome_cli']?>" required>
+                    <input class="inputLink inputAlt maxWidth" type="text" name="nome_cli_alt" value="<?=$_SESSION['nome_cli']?>" required>
                     <br><br>
                     <label>Empresa</label>
-                    <input type="text" name="empresa_cli_alt" value="<?=$_SESSION['empresa_cli']?>" required>
+                    <input class="inputLink inputAlt maxWidth" type="text" name="empresa_cli_alt" value="<?=$_SESSION['empresa_cli']?>" required>
                     <br><br>
                     <label>E-mail</label>
-                    <input type="text" name="email_cli_alt" value="<?=$_SESSION['email_cli']?>" required>
+                    <input class="inputLink inputAlt maxWidth" type="text" name="email_cli_alt" value="<?=$_SESSION['email_cli']?>" required>
                     <br><br>
                     <label>Telefone</label>
-                    <input type="text" name="telefone_cli_alt" value="<?=$_SESSION['telefone_cli']?>" required>
+                    <input class="inputLink inputAlt maxWidth" type="text" name="telefone_cli_alt" value="<?=$_SESSION['telefone_cli']?>" minlength="11" maxlength="11" required>
                     <br><br>
                     <label>Tempo de acesso</label>
                     <p style="color:gray">Digite a quantidade de dias de acesso que deseja liberar para esse usuário</p>
@@ -328,7 +348,7 @@ if(!empty($id)) {
                     <input type="checkbox" name="retirarAcesso">
                     <label>Desejo tirar o acesso desse usuário ao meu conteúdo</label>
                     <br><br>
-                    <input type="submit" value="Alterar">
+                    <input class="border-radius-button submit-padding-top-bottom maxWidth background-primary-color border-none color-white" type="submit" value="Alterar">
                 </form>
             </div>
         </div>

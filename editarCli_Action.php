@@ -99,9 +99,9 @@ if($nome_cli && $empresa_cli && $email_cli && $telefone_cli) {
         }
          
 
-        $_SESSION['msgAlt'] = '<p style="color:green">Dados alterados com sucesso.</p>';
-        $_SESSION['msgAltCrypt'] = password_hash($_SESSION['msgAlt'], PASSWORD_DEFAULT);
-        header('Location:registroUsuarios.php?msg='.$_SESSION['msgAltCrypt']);
+        $_SESSION['msgEdit'] = 'Dados alterados com sucesso.';
+        $_SESSION['msgEditCrypt'] = password_hash($_SESSION['msgEdit'], PASSWORD_DEFAULT);
+        header('Location:registroUsuarios.php?msgEdit='.$_SESSION['msgEditCrypt']);
         exit;
 
     } else if((($UsuarioClienteDao->verifyRowByEmail($email_cli) && ($email_cli != $email)) && ($UsuarioClienteDao->verifyRowByPhone($telefone_cli) && ($telefone_cli != $telefone))) || 
@@ -110,17 +110,17 @@ if($nome_cli && $empresa_cli && $email_cli && $telefone_cli) {
             (($UsuarioClienteDao->verifyRowByEmail($email_cli) && ($email_cli != $email)) && (!$UsuarioClienteDao->verifyRowByPhone($telefone_cli) && ($telefone_cli != $telefone))) ||
             ((!$UsuarioClienteDao->verifyRowByEmail($email_cli) && ($email_cli != $email)) && ($UsuarioClienteDao->verifyRowByPhone($telefone_cli) && ($telefone_cli != $telefone)))) {
 
-        $_SESSION['erroEdit'] = '<p style="color:#f00">Alguem já está utilizando os dados inseridos.</p>';
+        $_SESSION['erroEdit'] = 'Alguem já está utilizando os dados inseridos.';
         $_SESSION['erroEditCrypt'] = password_hash($_SESSION['erroEdit'], PASSWORD_DEFAULT);
-        header('Location:editarCli.php?erro='.$_SESSION['erroEditCrypt']);
+        header('Location:registroUsuarios.php?msgErroEdit='.$_SESSION['erroEditCrypt']);
         exit;
 
     }
 
 } else {
-    $_SESSION['erroEdit'] = '<p style="color:#f00">Os dados não foram inseridos corretamente.</p>';
+    $_SESSION['erroEdit'] = 'Os dados não foram inseridos corretamente.';
     $_SESSION['erroEditCrypt'] = password_hash($_SESSION['erroEdit'], PASSWORD_DEFAULT);
-    header('Location:editarCli.php?erro='.$_SESSION['erroEditCrypt']);
+    header('Location:registroUsuarios.php?msgErroEdit='.$_SESSION['erroEditCrypt']);
     exit;
 }
 ?>

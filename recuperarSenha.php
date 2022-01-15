@@ -57,8 +57,10 @@ if(!empty($email_usu)) {
 
             $mail->isHTML(true);                                  //Set email format to HTML
             $mail->Subject = 'Recuperar senha';
-            $mail->Body    = '
-            Prezado(a) '.$nome_usu.'. Você solicitou alteração de senha.
+            $mail->Body    = "
+            
+
+            Prezado(a) ".$nome_usu.". Você solicitou alteração de senha.
 
             <br><br>
 
@@ -67,14 +69,36 @@ if(!empty($email_usu)) {
 
             <br><br>
 
-            '.$link.'
+            ".$link."
             
             <br><br>
             
             Se você não solicitou essa alteração, nenhuma ação é necessária. Sua senha permanecerá
             a mesma até que você ative esse código.
             
-            <br><br>';
+            <br><br>
+            
+            --
+            
+            <br><br>
+            
+            Att.
+            
+            <h5>Exemplo de nome</h5>
+            
+            Santos Assessoria | Soluções Empresariais
+            
+            <br>
+            
+            Endereço: Rua Exemplo de nome, 00
+            
+            <br>
+            
+            Tel. (11) 2222-2222 / (11) 3333-3333
+            
+            <br>
+            
+            <img width='200px' src='assets/img/logoSaas.svg'>";
             $mail->AltBody = 'Prezado(a) '.$nome_usu.'. Você solicitou alteração de senha.
 
             \n\n

@@ -1,3 +1,33 @@
+
+
+#editarForm {
+    margin-top: 3em;
+
+    max-height: 80vh;
+
+    overflow: auto;
+}
+
+.labelVerMais {
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.marginVerMais {
+    margin-bottom: 1em;
+}
+
+.editarBlock {
+    width: 100%;
+    height: 100%;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
 .editarNone {
     display: none;
 }
@@ -15,10 +45,14 @@
 }
 
 #editUpDel {
+    width: 100%;
     display: flex;
     flex-direction: column;
 
     justify-content: center;
+    align-items: center;
+
+    margin: 0;
 }
 
 .buttonVerMais {
@@ -26,14 +60,25 @@
 
     text-align: center;
 
+    margin-bottom: 1em;
+
     padding: 5px 0;
 }
 
+.text-editVermais {
+    text-align: center;
+}
+
 @media screen and (min-width: 768px) {
+
+    .text-editVermais {
+        text-align: left;
+    }
+
     .buttonVerMais {
         width: 200px;
 
-        
+        margin-bottom: 0;
     }
 
     #editUpDel {
@@ -46,7 +91,12 @@
     #verMaisForm {
         padding: 0;
     }
+
+    #editarForm {
+        padding: 0;
+    }
 }
+
 .bodyVerMais {
     max-height: 100%;
 
