@@ -1,6 +1,18 @@
 <?php
 session_start();
 
+require 'config.php';
+require 'dao/UsuarioAdministradorDaoMysql.php';
+
+$UsuarioAministradorDao = new UsuarioAdministradorDaoMysql($pdo);
+
+$usuarioAdm = $UsuarioAministradorDao->findAll();
+
+foreach($usuarioAdm as $getUsuarioAdm) {
+    $telefone = $getUsuarioAdm->getTelefoneAdm();
+    $email_ctt = $getUsuarioAdm->getEmailAdmCtt();
+}
+
 $_SESSION['erro'] = "Usuário ou senha incorretos";
 $erroLogin = 'E-mail ou Senha incorreto';
 $msgLog = 'end';
@@ -109,5 +121,26 @@ $mensagem = $_SESSION['msg'];
         </div>
         
     </main>
+    <footer class="background-primary-color" style="margin-top: 4em; padding: 2em;" width="100%" height="100px">
+        <div class="container">
+            <div class="row" style="text-align: center; ">
+                <section class="col-12 col-md-6">
+                    <h3>Contato</h3>
+                    <br>
+                    <p>Telefone: <?=$telefone;?></p>
+                    <p>E-mail: <?=$email_ctt;?></p>
+                </section>
+                <section class="col-12 col-md-6">
+                    <h3>Saas report</h3>
+                    <br>
+                    <p>Santos Assessoria | Soluções Empresariais</p>
+                    <p>Endereço: Rua Exemplo de nome, 00</p>
+                </section>
+            </div>
+        </div>
+    </footer>
+    <div style="background-color: #000;" width="100%">
+        <p style="text-align: center; margin: 0; padding: 10px; color: #fff;">Copyright © 2022. All right reserved</p>
+    </div>
 </body>
 </html>

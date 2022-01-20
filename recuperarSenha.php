@@ -2,6 +2,17 @@
 <?php
 require 'config.php';
 require 'dao/UsuarioClienteDaoMysql.php';
+require 'dao/UsuarioAdministradorDaoMysql.php';
+
+$UsuarioAministradorDao = new UsuarioAdministradorDaoMysql($pdo);
+
+$usuarioAdm = $UsuarioAministradorDao->findAll();
+
+foreach($usuarioAdm as $getUsuarioAdm) {
+    $nome_adm = $getUsuarioAdm->getNomeAdm();
+    $telefone = $getUsuarioAdm->getTelefoneAdm();
+    $email_ctt = $getUsuarioAdm->getEmailAdmCtt();
+}
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -52,6 +63,8 @@ if(!empty($email_usu)) {
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;   
             $mail->Port       = 2525; 
 
+            $mail->AddEmbeddedImage('assets/img/logoSaas.png', 'logo_saas');
+
             $mail->setFrom('atendimento@mailtrap.com', 'Atendimento');
             $mail->addAddress($email_usu, $nome_usu);  
 
@@ -64,12 +77,13 @@ if(!empty($email_usu)) {
 
             <br><br>
 
+
             Para continuar com o processo de recuperação de sua senha, clique no link abaixo ou cole
             o endereço no seu navegador:
 
             <br><br>
 
-            ".$link."
+            <a href'".$link."'>".$link."</a>
             
             <br><br>
             
@@ -84,22 +98,22 @@ if(!empty($email_usu)) {
             
             Att.
             
-            <h5>Exemplo de nome</h5>
+            <h5>".$nome_adm."</h5>
             
             Santos Assessoria | Soluções Empresariais
             
-            <br>
+            <br><br>
             
             Endereço: Rua Exemplo de nome, 00
             
-            <br>
+            <br><br>
             
-            Tel. (11) 2222-2222 / (11) 3333-3333
+            Tel. ".$telefone."
             
-            <br>
+            <br><br>
             
-            <img width='200px' src='assets/img/logoSaas.svg'>";
-            $mail->AltBody = 'Prezado(a) '.$nome_usu.'. Você solicitou alteração de senha.
+            <img src='cid:logo_saas'>";
+            $mail->AltBody = "Prezado(a) ".$nome_usu.". Você solicitou alteração de senha.
 
             \n\n
 
@@ -108,14 +122,38 @@ if(!empty($email_usu)) {
 
             \n\n
 
-            '.$link.'
+            ".$link."
             
             \n\n
             
             Se você não solicitou essa alteração, nenhuma ação é necessária. Sua senha permanecerá
             a mesma até que você ative esse código.
             
-            \n\n';
+            \n\n
+            
+            --
+            
+            \n\n
+            
+            Att.
+
+            \n\n
+            
+            ".$nome_adm."
+
+            \n\n
+            
+            Santos Assessoria | Soluções Empresariais
+            
+            \n\n
+            
+            Endereço: Rua Exemplo de nome, 00
+            
+            \n\n
+            
+            Tel. ".$telefone."
+            
+            \n\n";
 
             $mail->send();
 
@@ -203,6 +241,26 @@ $mensagem = $_SESSION['msg'];
             </div>
         </div>
     </main>
-    
+    <footer class="background-primary-color" style="margin-top: 4em; padding: 2em;" width="100%" height="100px">
+        <div class="container">
+            <div class="row" style="text-align: center; ">
+                <section class="col-12 col-md-6">
+                    <h3>Contato</h3>
+                    <br>
+                    <p>Telefone: <?=$telefone;?></p>
+                    <p>E-mail: <?=$email_ctt;?></p>
+                </section>
+                <section class="col-12 col-md-6">
+                    <h3>Saas report</h3>
+                    <br>
+                    <p>Santos Assessoria | Soluções Empresariais</p>
+                    <p>Endereço: Rua Exemplo de nome, 00</p>
+                </section>
+            </div>
+        </div>
+    </footer>
+    <div style="background-color: #000;" width="100%">
+        <p style="text-align: center; margin: 0; padding: 10px; color: #fff;">Copyright © 2022. All right reserved</p>
+    </div>
 </body>
 </html>

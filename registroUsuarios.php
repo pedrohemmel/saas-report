@@ -7,11 +7,12 @@ $_SESSION['admLogged'] = true;
 require 'config.php';
 require 'dao/UsuarioClienteDaoMysql.php';
 require 'dao/UsuarioAdministradorDaoMysql.php';
-require 'dao/RelatorioUsuariosDaoMysql.php';
+
 
 $UsuarioClienteDao = new UsuarioClienteDaoMysql($pdo);
 $UsuarioAdministradorDao = new UsuarioAdministradorDaoMysql($pdo);
-$RelatorioUsuariosDao = new RelatorioUsuariosDaoMysql($pdo);
+
+
 
 $msg = filter_input(INPUT_GET, 'msg');
 $id = filter_input(INPUT_GET, 'id');
@@ -21,7 +22,7 @@ $msgEdit = filter_input(INPUT_GET, 'msgEdit');
 $msgErroEdit = filter_input(INPUT_GET, 'msgErroEdit');
 
 $usuarioCli = $UsuarioClienteDao->findAll();
-$relatorioUsuario = $RelatorioUsuariosDao->findAll();
+
 
 //condições de requisições GET
 
@@ -204,8 +205,6 @@ if(!empty($id)) {
     </header>
 
     <main class="container">
-
-
         <!--Formato mobile/desktop-->
         <div style="max-height: 400px; overflow: auto;margin-top:1em;">
             <table border="1" width="100%">
@@ -229,57 +228,7 @@ if(!empty($id)) {
                     endforeach;
                 ?>
             </table> 
-        </div>  
-
-        
-            
-        <section id="formRegistrarLink">
-            <form class="maxWidth" method="POST" action="cadastrarLink_action.php" >
-
-                <h6>Adicione um link para o usuário visualizar <i class="bi bi-eye" style="margin-left: 5px;"></i></h5>
-                
-                <br>
-
-                <input class="inputLink inputAlt maxWidth" type="text" name="link_rel" placeholder="Adicione um link para o iframe" required>
-
-                <br><br>
-
-                <input class="inputLink inputAlt maxWidth" type="text" name="name_link_rel" placeholder="Digite o nome do link" required>
-
-                <br><br>
-
-                <input class="border-radius-button submit-padding-top-bottom maxWidth background-primary-color border-none color-white" type="submit" value="Adicionar">
-            </form>
-        </section>
-
-        <!--Formato mobile/desktop-->
-        <div style="max-height: 400px; overflow: auto; margin-bottom: 1em;">
-            <table border="1" width="100%">
-                <tr>
-                    <th>Id</th>
-                    <th>Nome do link</th>
-                    <th>ações</th>
-                </tr>
-
-                <?php
-                    foreach($relatorioUsuario as $getRelatorio):
-                ?>
-                <tr>
-                    <td><?=$getRelatorio->getIdRel();?></td>
-                    <td><?=$getRelatorio->getNameLinkRel();?></td>
-                    <td class="background-tertiary-color">
-                        <a class="text-hover-white color-white" href="apagarLink.php?id=<?=$getRelatorio->getIdRel();?>">Apagar</a>
-                    </td>
-                </tr>
-                <?php
-                    endforeach;
-                ?>
-            </table>
-        </div>
-            
-
-        
-        
+        </div>   
     </main>
 
     <section class="<?=$verMais;?>">
@@ -321,6 +270,7 @@ if(!empty($id)) {
             </div>
         </div>
     </section>
+    
     <section class="<?=$editar;?>">
         <div class="container" id="editarForm">
             <div class="formBase" >
@@ -355,6 +305,8 @@ if(!empty($id)) {
     </section>
 </body>
 </html>
+
+
 
 <?php
 exit;

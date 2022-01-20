@@ -37,7 +37,7 @@ if(!$_SESSION['admCadastro']) {
             <!--Criando um formulário com action para o cadastrar_action.php que vai confirmar os dados e subir pro banco de dados
             como um registro-->
             <form method="POST" action="cadastrarAdm_action.php">
-                <input class="inputAlt maxWidth" type="text" name="nome_adm" placeholder="Digite o nome de usuário" required>
+                <input class="inputAlt maxWidth" type="text" name="nome_adm" placeholder="Digite o nome de usuário administrador" required>
 
                 <br><br>
 
@@ -74,9 +74,8 @@ if(!$_SESSION['admCadastro']) {
                 
                 <input class="border-radius-button submit-padding-top-bottom maxWidth background-primary-color border-none color-white" type="submit" value="Cadastrar">
             </form>
-        </section>
-        
+        </section> 
     </div>
-    
+
 </body>
 </html>

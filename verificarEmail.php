@@ -3,6 +3,22 @@ session_start();
 
 require 'config.php';
 require 'dao/UsuarioClienteDaoMysql.php';
+require 'dao/UsuarioAdministradorDaoMysql.php';
+
+if(!$_SESSION['logged'] && !$_SESSION['admLogged']) {
+    header('Location:index.php');
+    exit;
+}
+
+$UsuarioAministradorDao = new UsuarioAdministradorDaoMysql($pdo);
+
+$usuarioAdm = $UsuarioAministradorDao->findAll();
+
+foreach($usuarioAdm as $getUsuarioAdm) {
+    $nome_adm = $getUsuarioAdm->getNomeAdm();
+    $telefone = $getUsuarioAdm->getTelefoneAdm();
+    $email_ctt = $getUsuarioAdm->getEmailAdmCtt();
+}
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -40,13 +56,15 @@ if(!empty($chave)) {
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;   
             $mail->Port       = 2525; 
 
+            $mail->AddEmbeddedImage('assets/img/logoSaas.png', 'logo_saas');
+
             $mail->setFrom('atendimento@mailtrap.com', 'Atendimento');
             $mail->addAddress($email_usu, $nome_usu);  
 
             $mail->isHTML(true);                                  //Set email format to HTML
             $mail->Subject = 'Verificar e-mail';
-            $mail->Body    = '
-            Prezado(a) '.$nome_usu.'. Você solicitou a verificação de email para ter acesso ao sistema.
+            $mail->Body    = "
+            Prezado(a) ".$nome_usu.". Você solicitou a verificação de email para ter acesso ao sistema.
 
             <br><br>
 
@@ -55,14 +73,37 @@ if(!empty($chave)) {
 
             <br><br>
 
-            '.$link.'
+            <a href'".$link."'>".$link."</a>
             
             <br><br>
             
             Se você não solicitou essa verificação, nenhuma ação é necessária.
 
-            <br><br>';
-            $mail->AltBody = 'Prezado(a) '.$nome_usu.'. Você solicitou a verificação de email para ter acesso ao sistema.
+            <br><br>
+            
+            --
+            
+            <br><br>
+            
+            Att.
+            
+            <h5>".$nome_adm."</h5>
+            
+            Santos Assessoria | Soluções Empresariais
+            
+            <br><br>
+            
+            Endereço: Rua Exemplo de nome, 00
+            
+            <br><br>
+            
+            Tel. ".$telefone."
+            
+            <br><br>
+            
+            <img src='cid:logo_saas'>";
+
+            $mail->AltBody = "Prezado(a) ".$nome_usu.". Você solicitou a verificação de email para ter acesso ao sistema.
 
             \n\n
 
@@ -71,13 +112,37 @@ if(!empty($chave)) {
 
             \n\n
 
-            '.$link.'
+            ".$link."
             
             \n\n
             
             Se você não solicitou essa verificação, nenhuma ação é necessária.
             
-            \n\n';
+            \n\n
+
+            --
+            
+            \n\n
+            
+            Att.
+
+            \n\n
+            
+            ".$nome_adm."
+
+            \n\n
+            
+            Santos Assessoria | Soluções Empresariais
+            
+            \n\n
+            
+            Endereço: Rua Exemplo de nome, 00
+            
+            \n\n
+            
+            Tel. ".$telefone."
+            
+            \n\n";
 
             $mail->send();
 
@@ -134,6 +199,26 @@ if(!empty($chave)) {
         </div>
         
     </main>
-    
+    <footer class="background-primary-color" style="margin-top: 6em; padding: 2em;" width="100%" height="100px">
+        <div class="container">
+            <div class="row" style="text-align: center; ">
+                <section class="col-12 col-md-6">
+                    <h3>Contato</h3>
+                    <br>
+                    <p>Telefone: <?=$telefone;?></p>
+                    <p>E-mail: <?=$email_ctt;?></p>
+                </section>
+                <section class="col-12 col-md-6">
+                    <h3>Saas report</h3>
+                    <br>
+                    <p>Santos Assessoria | Soluções Empresariais</p>
+                    <p>Endereço: Rua Exemplo de nome, 00</p>
+                </section>
+            </div>
+        </div>
+    </footer>
+    <div style="background-color: #000;" width="100%">
+        <p style="text-align: center; margin: 0; padding: 10px; color: #fff;">Copyright © 2022. All right reserved</p>
+    </div>
 </body>
 </html>

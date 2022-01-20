@@ -6,9 +6,6 @@ require 'dao/UsuarioAdministradorDaoMysql.php';
 session_start();
 $_SESSION['logged'] = $_SESSION['logged'] ?? false;
 
-//mensagem para o fim de uma sessao nos usuarios
-$_SESSION['end'] = 'end';
-$_SESSION['msg'] = password_hash($_SESSION['end'], PASSWORD_DEFAULT);
 
 date_default_timezone_set('America/Sao_Paulo');
 
@@ -74,18 +71,23 @@ if($UsuarioClienteDao->verifyRowByEmail($email_usu)) {
             exit;
         }
     } else if ($verificacao_cli == 'nao') {
+        if($email_usu == $email && password_verify($senha_usu, $senha)) {  
+            $_SESSION['chave'] = password_hash($id, PASSWORD_DEFAULT);
 
-        $_SESSION['chave'] = password_hash($id, PASSWORD_DEFAULT);
-
-        $chaveVerificacao = new UsuarioCliente;
-        $chaveVerificacao->setIdCli($id);
-        $chaveVerificacao->setRecuperaSenhaCli($_SESSION['chave']);
-
-        //Utilizei essa função porque o código de identificação será o mesmo
-        $UsuarioClienteDao->updateRecuperarSenha($chaveVerificacao);
-
-        header('Location:verificarEmail.php');
-        exit;
+            $chaveVerificacao = new UsuarioCliente;
+            $chaveVerificacao->setIdCli($id);
+            $chaveVerificacao->setRecuperaSenhaCli($_SESSION['chave']);
+    
+            //Utilizei essa função porque o código de identificação será o mesmo
+            $UsuarioClienteDao->updateRecuperarSenha($chaveVerificacao);
+    
+            header('Location:verificarEmail.php');
+            exit;
+        } else {
+            header('Location:login.php?erro='.$erroLoginCrypt);
+            exit;
+        }
+      
     } else {
         header('Location:index.php');
         exit;

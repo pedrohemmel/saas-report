@@ -2,20 +2,22 @@
 
 session_start();
 
+require 'config.php';
+require 'dao/UsuarioAdministradorDaoMysql.php';
+
+$UsuarioAministradorDao = new UsuarioAdministradorDaoMysql($pdo);
+
+$usuarioAdm = $UsuarioAministradorDao->findAll();
+
+foreach($usuarioAdm as $getUsuarioAdm) {
+    $telefone = $getUsuarioAdm->getTelefoneAdm();
+    $email_ctt = $getUsuarioAdm->getEmailAdmCtt();
+}
+
 if(!$_SESSION['logged']) {
     header('Location:index.php');
     exit;
 } 
-
-require 'config.php';
-require 'dao/RelatorioUsuariosDaoMysql.php';
-
-
-/*AQUI FOI PESQUISADO O NOME DO USUARIO PARA COLOCAR NA TELA*/
-$RelatorioUsuariosDao = new RelatorioUsuariosDaoMysql($pdo);
-
-$relatorioUsuario = $RelatorioUsuariosDao->findAll();
-
 ?>
 
 <!DOCTYPE html>
@@ -42,10 +44,9 @@ $relatorioUsuario = $RelatorioUsuariosDao->findAll();
             <img width="50px" src="assets/img/logoSaas.svg">
             <a class="background-secondary-color noDecorations submit-padding-exit color-white border-radius-button link-color-white" href="login.php?msg=<?=$_SESSION['msg'];?>">Sair <i class="bi bi-box-arrow-right bi-margin-exit color-white"></i></a>
         </div>
-        
     </header>
     
-    <div class="container">
+    <div class="container" style="position: relative;">
         <div class="conecUsu fundoBemVindo">
            <p class="color-white">Bem vindo, <?=$_SESSION['nome'];?>!</p> 
            <p class="color-white">Seu acesso ao relatório expira na data: <?=$_SESSION['dataLimite'];?></p>
@@ -53,15 +54,61 @@ $relatorioUsuario = $RelatorioUsuariosDao->findAll();
         
         <br>
 
-        <?php
-        foreach($relatorioUsuario as $getRelatorio):
-        ?>
-        <iframe width="100%" height="700px;" src="<?=$getRelatorio->getLinkRel();?>"></iframe>
-        <?php
-        endforeach;
-        ?>  
+        <div id="htmlTest" style="width: 100%; height: 700px;"></div>
+        <div id="dhs"></div>
+        <script type="text/javascript" src="assets/js/main.js"></script>
+
+        <style>
+        
+        div[data-element="dhs"] {
+            position: absolute;
+            display: none;
+            bottom: 25px;
+            right: 15px;
+            width: 95px;
+            height: 25px;
+            background-color: #eaeaea;
+            z-index: 1000;
+        }
+
+        @media screen and (min-width: 768px) {
+            div[data-element="dhs"] {
+            position: absolute;
+            display: none;
+            bottom: 25px;
+            right: 15px;
+            width: 190px;
+            height: 25px;
+            background-color: #eaeaea;
+            z-index: 1000;
+        }
+        }
+        
+        </style>
+        <div data-element="dhs" style="display: block;"></div>
+     
         <br>
     </div>
-    
+    <footer class="background-primary-color" style="margin-top: 4em; padding: 2em;" width="100%" height="100px">
+        <div class="container">
+            <div class="row" style="text-align: center; ">
+                <section class="col-12 col-md-6">
+                    <h3>Contato</h3>
+                    <br>
+                    <p>Telefone: <?=$telefone;?></p>
+                    <p>E-mail: <?=$email_ctt;?></p>
+                </section>
+                <section class="col-12 col-md-6">
+                    <h3>Saas report</h3>
+                    <br>
+                    <p>Santos Assessoria | Soluções Empresariais</p>
+                    <p>Endereço: Rua Exemplo de nome, 00</p>
+                </section>
+            </div>
+        </div>
+    </footer>
+    <div style="background-color: #000;" width="100%">
+        <p style="text-align: center; margin: 0; padding: 10px; color: #fff;">Copyright © 2022. All right reserved</p>
+    </div>
 </body>
 </html>

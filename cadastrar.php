@@ -2,6 +2,17 @@
 
 session_start();
 
+require 'config.php';
+require 'dao/UsuarioAdministradorDaoMysql.php';
+
+$UsuarioAministradorDao = new UsuarioAdministradorDaoMysql($pdo);
+
+$usuarioAdm = $UsuarioAministradorDao->findAll();
+
+foreach($usuarioAdm as $getUsuarioAdm) {
+    $telefone = $getUsuarioAdm->getTelefoneAdm();
+    $email_ctt = $getUsuarioAdm->getEmailAdmCtt();
+}
 
 $erroCadastroCrypt = filter_input(INPUT_GET, 'erro');
 
@@ -42,7 +53,7 @@ $mensagem = $_SESSION['msg'];
         </div>
     </header>
     <div class="container" id="containerCadastrar">
-        <section class="border-radius-button formBase" id="formCadastrar">
+        <section class="border-radius-button formBase" id="formCadastrar" style="margin-top: 4em;">
     <!--Criando um formulário com action para o cadastrar_action.php que vai confirmar os dados e subir pro banco de dados
 como um registro-->
             <form method="POST" action="cadastrar_action.php">
@@ -78,6 +89,28 @@ como um registro-->
             <hr>
             <a class="noDecorations color-primary text-center link-color-primary" href="login.php">Fazer login</a>
         </section>
+    </div>
+
+    <footer class="background-primary-color" style="margin-top: 4em; padding: 2em;" width="100%" height="100px">
+        <div class="container">
+            <div class="row" style="text-align: center; ">
+                <section class="col-12 col-md-6">
+                    <h3>Contato</h3>
+                    <br>
+                    <p>Telefone: <?=$telefone;?></p>
+                    <p>E-mail: <?=$email_ctt;?></p>
+                </section>
+                <section class="col-12 col-md-6">
+                    <h3>Saas report</h3>
+                    <br>
+                    <p>Santos Assessoria | Soluções Empresariais</p>
+                    <p>Endereço: Rua Exemplo de nome, 00</p>
+                </section>
+            </div>
+        </div>
+    </footer>
+    <div style="background-color: #000;" width="100%">
+        <p style="text-align: center; margin: 0; padding: 10px; color: #fff;">Copyright © 2022. All right reserved</p>
     </div>
 </body>
 </html>

@@ -43,11 +43,35 @@ foreach($usuarioAdm as $getUsuarioAdm) {
     <main class="container" id="blocoAcessoNegado">
         <div class="border-radius-button msgErroAcessoNegado">
             <p style="color: #f00; margin-bottom: 4em;">Você não tem acesso ao relatório, entre em contato com a administração para solicitar o acesso novamente.</p>
+            <label style="font-weight: bold;">Telefone de contato</label>
             <p><?=$telefone;?></p>
+            <label style="font-weight: bold;">Email de contato</label>
             <p><?=$email_ctt;?></p>
         </div>
         
     </main>
+
+    <footer class="background-primary-color" style="margin-top: 6em; padding: 2em;" width="100%" height="100px">
+        <div class="container">
+            <div class="row" style="text-align: center; ">
+                <section class="col-12 col-md-6">
+                    <h3>Contato</h3>
+                    <br>
+                    <p>Telefone: <?=$telefone;?></p>
+                    <p>E-mail: <?=$email_ctt;?></p>
+                </section>
+                <section class="col-12 col-md-6">
+                    <h3>Saas report</h3>
+                    <br>
+                    <p>Santos Assessoria | Soluções Empresariais</p>
+                    <p>Endereço: Rua Exemplo de nome, 00</p>
+                </section>
+            </div>
+        </div>
+    </footer>
+    <div style="background-color: #000;" width="100%">
+        <p style="text-align: center; margin: 0; padding: 10px; color: #fff;">Copyright © 2022. All right reserved</p>
+    </div>
     
 </body>
 </html>
