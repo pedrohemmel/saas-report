@@ -29,6 +29,7 @@ if(!empty($erro)) {
     if(password_verify($erroLogin, $erro)) {
         $classeNone = 'displayBlkRed';
         $_SESSION['msg'] = $_SESSION['erro'];
+        $mensagem = $_SESSION['msg'];
     }
 } else if(!empty($msg)) {
     if(password_verify($msgLog, $msg)) {
@@ -38,25 +39,29 @@ if(!empty($erro)) {
     if(password_verify($_SESSION['chaveRe'], $chaveRe)) {
         $classeNone = 'displayBlkGreen';
         $_SESSION['msg'] = $_SESSION['chaveRe'];
+        $mensagem = $_SESSION['msg'];
     } 
 } else if(!empty($msgCad)) {
     if(password_verify($_SESSION['msgCad'], $msgCad)) {
         $classeNone = 'displayBlkGreen';
         $_SESSION['msg'] = $_SESSION['msgCad'];
+        $mensagem = $_SESSION['msg'];
     } 
 } else if(!empty($chaveVeri)) {
     if(password_verify($_SESSION['chaveVeri'], $chaveVeri)) {
         $classeNone = 'displayBlkRed';
         $_SESSION['msg'] = $_SESSION['chaveVeri'];
+        $mensagem = $_SESSION['msg'];
     } 
 } else if(!empty($msgVeri)) {
     if(password_verify($_SESSION['msgVeri'], $msgVeri)) {
         $classeNone = 'displayBlkGreen';
         $_SESSION['msg'] = $_SESSION['msgVeri'];
+        $mensagem = $_SESSION['msg'];
     } 
 }
 
-$mensagem = $_SESSION['msg'];
+
 
 ?>
 
@@ -139,7 +144,8 @@ $mensagem = $_SESSION['msg'];
             </div>
         </div>
     </footer>
-    <div style="background-color: #000;" width="100%">
+    <div class="background-primary-color" width="100%">
+        <hr style="margin-top: 0; margin-bottom: 0; background-color:#000;">
         <p style="text-align: center; margin: 0; padding: 10px; color: #fff;">Copyright © 2022. All right reserved</p>
     </div>
 </body>

@@ -13,6 +13,10 @@ date_default_timezone_set('America/Sao_Paulo');
 $UsuarioClienteDao = new UsuarioClienteDaoMysql($pdo);
 $UsuarioAdministradorDao = new UsuarioAdministradorDaoMysql($pdo);
 
+//mensagem para o fim de uma sessao nos usuarios
+$_SESSION['end'] = 'end';
+$_SESSION['msg'] = password_hash($_SESSION['end'], PASSWORD_DEFAULT);
+
 //ERRO CASO EMAIL NAO ESTEJA CORRETO
 $erroLogin = 'E-mail ou Senha incorreto';
 $erroLoginCrypt = password_hash($erroLogin, PASSWORD_DEFAULT);
