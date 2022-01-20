@@ -14,7 +14,7 @@ foreach($usuarioAdm as $getUsuarioAdm) {
     $email_ctt = $getUsuarioAdm->getEmailAdmCtt();
 }
 
-if(!$_SESSION['logged']) {
+if($_SESSION['loggedUsu'] === false) {
     header('Location:index.php');
     exit;
 } 
@@ -109,7 +109,7 @@ if(!$_SESSION['logged']) {
     </footer>
     <div class="background-primary-color" width="100%">
         <hr style="margin-top: 0; margin-bottom: 0; background-color:#000;">
-        <p style="text-align: center; margin: 0; padding: 10px; color: #fff;">Copyright © 2022. All right reserved</p>
+        <p style="text-align: center; margin: 0; padding: 10px; color: #000;">Copyright © 2022. All right reserved</p>
     </div>
 </body>
 </html>

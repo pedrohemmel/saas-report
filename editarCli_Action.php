@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if(!$_SESSION['logged'] && !$_SESSION['admLogged']) {
+if($_SESSION['loggedAdm'] === false) {
     header('Location:index.php');
     exit;
 }

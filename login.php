@@ -33,7 +33,8 @@ if(!empty($erro)) {
     }
 } else if(!empty($msg)) {
     if(password_verify($msgLog, $msg)) {
-        $_SESSION['logged'] = false;
+        $_SESSION['loggedUsu'] = false;
+        $_SESSION['loggedAdm'] = false;
     }
 } else if(!empty($chaveRe)) {
     if(password_verify($_SESSION['chaveRe'], $chaveRe)) {
@@ -146,7 +147,7 @@ if(!empty($erro)) {
     </footer>
     <div class="background-primary-color" width="100%">
         <hr style="margin-top: 0; margin-bottom: 0; background-color:#000;">
-        <p style="text-align: center; margin: 0; padding: 10px; color: #fff;">Copyright © 2022. All right reserved</p>
+        <p style="text-align: center; margin: 0; padding: 10px; color: #000;">Copyright © 2022. All right reserved</p>
     </div>
 </body>
 </html>

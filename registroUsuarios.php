@@ -2,8 +2,6 @@
 
 session_start();
 
-$_SESSION['admLogged'] = true;
-
 require 'config.php';
 require 'dao/UsuarioClienteDaoMysql.php';
 require 'dao/UsuarioAdministradorDaoMysql.php';
@@ -28,7 +26,7 @@ $usuarioCli = $UsuarioClienteDao->findAll();
 
 $classeNone = 'displayNone';
 
-if(!$_SESSION['logged']) {
+if(!$_SESSION['loggedAdm']) {
     header('Location:index.php');
     exit;
 } 

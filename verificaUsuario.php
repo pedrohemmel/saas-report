@@ -4,7 +4,9 @@ require 'dao/UsuarioClienteDaoMysql.php';
 require 'dao/UsuarioAdministradorDaoMysql.php';
 
 session_start();
-$_SESSION['logged'] = $_SESSION['logged'] ?? false;
+$_SESSION['loggedUsu'] = $_SESSION['loggedUsu'] ?? false;
+$_SESSION['loggedAdm'] = $_SESSION['loggedAdm'] ?? false;
+$_SESSION['verificarLog'] = $_SESSION['verificarLog'] ?? false;
 
 
 date_default_timezone_set('America/Sao_Paulo');
@@ -67,7 +69,7 @@ if($UsuarioClienteDao->verifyRowByEmail($email_usu)) {
             $_SESSION['senha'] = $senha;
             $_SESSION['nome'] = $nome;
             $_SESSION['dataLimite'] = $dataLimite;
-            $_SESSION['logged'] = true;
+            $_SESSION['loggedUsu'] = true;
             header('Location:login_action.php');
             exit;
         } else {
@@ -75,7 +77,10 @@ if($UsuarioClienteDao->verifyRowByEmail($email_usu)) {
             exit;
         }
     } else if ($verificacao_cli == 'nao') {
-        if($email_usu == $email && password_verify($senha_usu, $senha)) {  
+        if($email_usu == $email && password_verify($senha_usu, $senha)) { 
+
+            $_SESSION['verificarLog'] = true;
+
             $_SESSION['chave'] = password_hash($id, PASSWORD_DEFAULT);
 
             $chaveVerificacao = new UsuarioCliente;
@@ -112,7 +117,7 @@ if($UsuarioClienteDao->verifyRowByEmail($email_usu)) {
         $_SESSION['email'] = $email_adm;
         $_SESSION['senha'] = $senha_adm;
         $_SESSION['nome'] = $nome_adm;
-        $_SESSION['logged'] = true;
+        $_SESSION['loggedAdm'] = true;
         header('Location:registroUsuarios.php');
         exit;
     } else {

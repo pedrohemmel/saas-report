@@ -16,7 +16,7 @@ foreach($usuario as $getUsuario) {
     $situacao = $getUsuario->getSituacaoCli();
 }
 
-if($_SESSION['logged']) {
+if($_SESSION['loggedUsu'] === true) {
     if($situacao == 'ativo') {
         header('Location:relatorio.php'); 
         exit;
