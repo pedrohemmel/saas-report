@@ -113,6 +113,8 @@ if(!empty($email_usu)) {
             <br><br>
             
             <img src='cid:logo_saas'>";
+
+            
             $mail->AltBody = "Prezado(a) ".$nome_usu.". Você solicitou alteração de senha.
 
             \n\n

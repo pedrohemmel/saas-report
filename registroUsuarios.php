@@ -270,7 +270,7 @@ if(!empty($id)) {
             </div>
         </div>
     </section>
-    
+
     <section class="<?=$editar;?>">
         <div class="container" id="editarForm">
             <div class="formBase" >
@@ -305,8 +305,6 @@ if(!empty($id)) {
     </section>
 </body>
 </html>
-
-
 
 <?php
 exit;

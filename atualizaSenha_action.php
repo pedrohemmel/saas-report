@@ -14,18 +14,17 @@ foreach($usuario as $getUsuario) {
 }
 
 $nova_senha = filter_input(INPUT_POST, 'nova_senha_cli');
+
 if($nova_senha) {
     if(!password_verify($nova_senha, $senha_cli)) {
         $nova_senha_cli = password_hash($nova_senha, PASSWORD_DEFAULT);
 
         $usuario = $UsuarioClienteDao->findByKeyPass($_SESSION['chave']);
-        $_SESSION['chaveRe'] = "Senha atualizada com sucesso!";
-        $chaveRe = password_hash($_SESSION['chaveRe'], PASSWORD_DEFAULT);
+        
 
         foreach($usuario as $getUsuario) {
             $id_cli = $getUsuario->getIdCli();
         }
-
 
         $usuarioAlt = new UsuarioCliente;
         $usuarioAlt->setIdCli($id_cli);
@@ -41,6 +40,8 @@ if($nova_senha) {
         //Utilizei essa função porque o código de identificação será o mesmo
         $UsuarioClienteDao->updateRecuperarSenha($chaveVerificacao);
 
+        $_SESSION['chaveRe'] = "Senha atualizada com sucesso!";
+        $chaveRe = password_hash($_SESSION['chaveRe'], PASSWORD_DEFAULT);
         header('Location:login.php?chaveRe='.$chaveRe);
         exit;
     } else {

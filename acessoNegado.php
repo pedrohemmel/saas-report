@@ -37,8 +37,7 @@ foreach($usuarioAdm as $getUsuarioAdm) {
         <div class="container">
             <img width="50px" src="assets/img/logoSaas.svg">
             <a class="background-secondary-color noDecorations submit-padding-exit color-white border-radius-button link-color-white" href="login.php?msg=<?=$_SESSION['msg'];?>">Sair <i class="bi bi-box-arrow-right bi-margin-exit color-white"></i></a>
-        </div>
-        
+        </div>  
     </header>
     <main class="container" id="blocoAcessoNegado">
         <div class="border-radius-button msgErroAcessoNegado">
@@ -48,7 +47,6 @@ foreach($usuarioAdm as $getUsuarioAdm) {
             <label style="font-weight: bold;">Email de contato</label>
             <p><?=$email_ctt;?></p>
         </div>
-        
     </main>
 
     <footer class="background-primary-color" style="margin-top: 6em; padding: 2em;" width="100%" height="100px">
