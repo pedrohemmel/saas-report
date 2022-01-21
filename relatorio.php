@@ -14,7 +14,7 @@ foreach($usuarioAdm as $getUsuarioAdm) {
     $email_ctt = $getUsuarioAdm->getEmailAdmCtt();
 }
 
-if($_SESSION['loggedUsu'] === false) {
+if(!$_SESSION['loggedUsu']) {
     header('Location:index.php');
     exit;
 } 
@@ -52,7 +52,7 @@ if($_SESSION['loggedUsu'] === false) {
 
         </div>
 
-        <div id="htmlTest" style="width: 100%;height: 80vh; margin-top: 1em;"></div>
+        <div id="htmlTest" style="width: 100%; margin-top: 1em;"></div>
         <div id="dhs"></div>
         <script type="text/javascript" src="assets/js/main.js"></script>
 

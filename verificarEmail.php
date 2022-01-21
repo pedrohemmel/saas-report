@@ -5,7 +5,7 @@ require 'config.php';
 require 'dao/UsuarioClienteDaoMysql.php';
 require 'dao/UsuarioAdministradorDaoMysql.php';
 
-if($_SESSION['verificarLog'] === false) {
+if(!$_SESSION['verificarLog']) {
     header('Location:index.php');
     exit;
 }

@@ -2,7 +2,7 @@
 
 session_start();
 
-if($_SESSION['admCadastro'] === false) {
+if(!$_SESSION['admCadastro']) {
     header('Location:index.php');
     exit;
 }
