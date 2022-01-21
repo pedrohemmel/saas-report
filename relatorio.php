@@ -47,14 +47,12 @@ if($_SESSION['loggedUsu'] === false) {
     </header>
     
     <div class="container" style="position: relative;">
-        <div class="conecUsu fundoBemVindo">
-           <p class="color-white">Bem vindo, <?=$_SESSION['nome'];?>!</p> 
-           <p class="color-white">Seu acesso ao relatório expira na data: <?=$_SESSION['dataLimite'];?></p>
-        </div>
-        
-        <br>
+        <div>
+           <p id="bemVindTop" class="background-primary-color border-radius-button color-white" style="margin: 0;">Bem vindo, <?=$_SESSION['nome'];?>! | Seu acesso ao relatório expira na data: <?=$_SESSION['dataLimite'];?></p> 
 
-        <div id="htmlTest" style="width: 100%; height: 700px;"></div>
+        </div>
+
+        <div id="htmlTest" style="width: 100%;height: 80vh; margin-top: 1em;"></div>
         <div id="dhs"></div>
         <script type="text/javascript" src="assets/js/main.js"></script>
 
@@ -89,7 +87,7 @@ if($_SESSION['loggedUsu'] === false) {
      
         <br>
     </div>
-    <footer class="background-primary-color" style="margin-top: 4em; padding: 2em;" width="100%" height="100px">
+    <footer class="background-primary-color" style="margin-top: 1em; padding: 2em;" width="100%" height="100px">
         <div class="container">
             <div class="row" style="text-align: center; ">
                 <section class="col-12 col-md-6">

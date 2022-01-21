@@ -6,6 +6,26 @@
     --black-color: #000;
 }
 
+#htmlTest {
+    height: 75vh;
+}
+
+@media screen and (min-width: 768px) {
+    #htmlTest {
+        height: 80vh;
+    }
+}
+
+#bemVindTop {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    padding: 5px 5px 5px 5px;
+
+    margin-top: -5px;
+
+    font-size: 0.8em;
+}
+
 .topBar .container {
     display: flex;
     flex-direction: row;
@@ -14,31 +34,3 @@
     align-items: center;
 }
 
-.fundoBemVindo {
-    background-color: var(--primary-color);
-
-    padding: 10px 10px 5px 10px;
-
-    margin-top: -5px;
-
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-
-
-
-
-
-@media screen and (min-width: 768px) {
-
-
-    .fundoBemVindo {
-        width: 70%;
-    }
-}
-
-@media screen and (min-width: 992px) {
-    .fundoBemVindo {       
-        width: 50%;
-    }
-}
