@@ -17,7 +17,7 @@ $UsuarioAdministradorDao = new UsuarioAdministradorDaoMysql($pdo);
 
 //mensagem para o fim de uma sessao nos usuarios
 $_SESSION['end'] = 'end';
-$_SESSION['msg'] = password_hash($_SESSION['end'], PASSWORD_DEFAULT);
+$_SESSION['msgSair'] = password_hash($_SESSION['end'], PASSWORD_DEFAULT);
 
 //ERRO CASO EMAIL NAO ESTEJA CORRETO
 $erroLogin = 'E-mail ou Senha incorreto';
@@ -69,7 +69,8 @@ if($UsuarioClienteDao->verifyRowByEmail($email_usu)) {
             $_SESSION['senha'] = $senha;
             $_SESSION['nome'] = $nome;
             $_SESSION['dataLimite'] = $dataLimite;
-            $_SESSION['loggedUsu'] = true;
+            $_SESSION['loggedUsu'] = true; 
+            $_SESSION['verificarLog'] = false;
             header('Location:login_action.php');
             exit;
         } else {
@@ -80,6 +81,8 @@ if($UsuarioClienteDao->verifyRowByEmail($email_usu)) {
         if($email_usu == $email && password_verify($senha_usu, $senha)) { 
 
             $_SESSION['verificarLog'] = true;
+            $_SESSION['loggedUsu'] = false; 
+            $_SESSION['loggedAdm'] = false; 
 
             $_SESSION['chave'] = password_hash($id, PASSWORD_DEFAULT);
 
@@ -118,6 +121,7 @@ if($UsuarioClienteDao->verifyRowByEmail($email_usu)) {
         $_SESSION['senha'] = $senha_adm;
         $_SESSION['nome'] = $nome_adm;
         $_SESSION['loggedAdm'] = true;
+        $_SESSION['verificarLog'] = false;
         header('Location:registroUsuarios.php');
         exit;
     } else {

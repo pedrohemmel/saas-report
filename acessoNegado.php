@@ -36,7 +36,7 @@ foreach($usuarioAdm as $getUsuarioAdm) {
     <header class="topBar background-primary-color">
         <div class="container">
             <img width="50px" src="assets/img/logoSaas.svg">
-            <a class="background-secondary-color noDecorations submit-padding-exit color-white border-radius-button link-color-white" href="login.php?msg=<?=$_SESSION['msg'];?>">Sair <i class="bi bi-box-arrow-right bi-margin-exit color-white"></i></a>
+            <a class="background-secondary-color noDecorations submit-padding-exit color-white border-radius-button link-color-white" href="login.php?msg=<?=$_SESSION['msgSair'];?>">Sair <i class="bi bi-box-arrow-right bi-margin-exit color-white"></i></a>
         </div>  
     </header>
     <main class="container" id="blocoAcessoNegado">
